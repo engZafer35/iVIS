@@ -1,0 +1,14 @@
+tftp_server_misc.c:48:6:tftpServerTick	32	static
+tftp_server_misc.c:111:23:tftpServerOpenConnection	48	static
+tftp_server_misc.c:219:6:tftpServerCloseConnection	16	static
+tftp_server_misc.c:260:6:tftpServerAcceptRequest	64	static
+tftp_server_misc.c:315:6:tftpServerProcessPacket	64	static
+tftp_server_misc.c:377:6:tftpServerProcessRrqPacket	40	static
+tftp_server_misc.c:468:6:tftpServerProcessWrqPacket	40	static
+tftp_server_misc.c:561:6:tftpServerProcessDataPacket	40	static
+tftp_server_misc.c:666:6:tftpServerProcessAckPacket	24	static
+tftp_server_misc.c:720:6:tftpServerProcessErrorPacket	24	static
+tftp_server_misc.c:756:9:tftpServerSendDataPacket	48	static
+tftp_server_misc.c:853:9:tftpServerSendAckPacket	32	static
+tftp_server_misc.c:895:9:tftpServerSendErrorPacket	40	static
+tftp_server_misc.c:944:9:tftpServerRetransmitPacket	32	static

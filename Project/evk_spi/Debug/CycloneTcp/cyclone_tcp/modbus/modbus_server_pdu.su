@@ -1,0 +1,12 @@
+modbus_server_pdu.c:51:9:modbusServerProcessRequest	56	static
+modbus_server_pdu.c:230:9:modbusServerProcessReadCoilsReq	40	static
+modbus_server_pdu.c:317:9:modbusServerProcessReadDiscreteInputsReq	40	static
+modbus_server_pdu.c:404:9:modbusServerProcessReadHoldingRegsReq	48	static
+modbus_server_pdu.c:477:9:modbusServerProcessReadInputRegsReq	48	static
+modbus_server_pdu.c:550:9:modbusServerProcessWriteSingleCoilReq	40	static
+modbus_server_pdu.c:622:9:modbusServerProcessWriteSingleRegReq	40	static
+modbus_server_pdu.c:679:9:modbusServerProcessWriteMultipleCoilsReq	40	static
+modbus_server_pdu.c:771:9:modbusServerProcessWriteMultipleRegsReq	48	static
+modbus_server_pdu.c:863:9:modbusServerProcessMaskWriteRegReq	40	static
+modbus_server_pdu.c:936:9:modbusServerProcessReadWriteMultipleRegsReq	56	static
+modbus_server_pdu.c:1047:9:modbusServerFormatExceptionResp	24	static

@@ -1,0 +1,10 @@
+path.c:42:8:pathIsAbsolute	0	static
+path.c:58:8:pathIsRelative	0	static
+path.c:74:15:pathGetFilename	8	static
+path.c:113:6:pathRemoveFilename	8	static
+path.c:130:6:pathCopy	24	static
+path.c:151:6:pathCanonicalize	48	static
+path.c:313:6:pathAddSlash	16	static
+path.c:341:6:pathRemoveSlash	8	static
+path.c:371:6:pathCombine	24	static
+path.c:409:8:pathMatch	24	static

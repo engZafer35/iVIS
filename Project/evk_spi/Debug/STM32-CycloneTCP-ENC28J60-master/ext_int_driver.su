@@ -1,0 +1,6 @@
+core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+core_cm4.h:1724:22:__NVIC_DisableIRQ	16	static,ignoring_inline_asm
+ext_int_driver.c:55:9:extIntInit	4	static
+ext_int_driver.c:67:6:extIntEnableIrq	8	static
+ext_int_driver.c:78:6:extIntDisableIrq	8	static
+ext_int_driver.c:89:6:HAL_GPIO_EXTI_Callback	24	static

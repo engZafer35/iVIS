@@ -1,0 +1,6 @@
+modbus_server.c:49:6:modbusServerGetDefaultSettings	16	static
+modbus_server.c:94:9:modbusServerInit	32	static
+modbus_server.c:149:9:modbusServerStart	32	static
+modbus_server.c:243:9:modbusServerStop	24	static
+modbus_server.c:290:6:modbusServerTask	72	static
+modbus_server.c:393:6:modbusServerDeinit	16	static

@@ -1,0 +1,6 @@
+ip_frag.c:640:1:ipfrag_free_pbuf_custom	8	static
+ip_frag.c:158:1:ip_reass_free_complete_datagram	24	static
+ip_frag.c:221:1:ip_reass_remove_oldest_datagram	24	static
+ip_frag.c:122:1:ip_reass_tmr	16	static
+ip_frag.c:476:1:ip_reass	48	static
+ip_frag.c:667:1:ip_frag	96	static

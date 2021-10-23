@@ -1,0 +1,9 @@
+sntp_client_misc.c:56:9:sntpClientOpenConnection	24	static
+sntp_client_misc.c:85:6:sntpClientCloseConnection	16	static
+sntp_client_misc.c:103:9:sntpClientSendRequest	48	static
+sntp_client_misc.c:162:9:sntpClientReceiveResponse	72	static
+sntp_client_misc.c:241:9:sntpClientCheckResponse	40	static
+sntp_client_misc.c:296:9:sntpClientParseResponse	24	static
+sntp_client_misc.c:338:9:sntpClientCheckTimeout	24	static
+sntp_client_misc.c:386:6:sntpClientDumpMessage	16	static
+sntp_client_misc.c:470:6:sntpClientDumpTimestamp	16	static

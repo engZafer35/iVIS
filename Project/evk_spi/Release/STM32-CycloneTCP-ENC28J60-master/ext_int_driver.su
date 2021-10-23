@@ -1,0 +1,4 @@
+ext_int_driver.c:55:9:extIntInit	0	static
+ext_int_driver.c:67:6:extIntEnableIrq	0	static
+ext_int_driver.c:78:6:extIntDisableIrq	0	static,ignoring_inline_asm
+ext_int_driver.c:89:6:HAL_GPIO_EXTI_Callback	0	static

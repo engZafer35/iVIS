@@ -1,0 +1,2 @@
+resource_manager.c:41:9:resGetData	48	static
+resource_manager.c:137:9:resSearchFile	40	static

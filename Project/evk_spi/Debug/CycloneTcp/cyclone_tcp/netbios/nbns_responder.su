@@ -1,0 +1,2 @@
+nbns_responder.c:54:6:nbnsProcessQuery	48	static
+nbns_responder.c:111:9:nbnsSendResponse	104	static

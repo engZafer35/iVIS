@@ -1,0 +1,5 @@
+igmp_host.c:59:9:igmpHostInit	24	static
+igmp_host.c:87:9:igmpHostJoinGroup	16	static
+igmp_host.c:137:9:igmpHostLeaveGroup	16	static
+igmp_host.c:166:6:igmpHostTick	32	static
+igmp_host.c:223:6:igmpHostLinkChangeEvent	32	static

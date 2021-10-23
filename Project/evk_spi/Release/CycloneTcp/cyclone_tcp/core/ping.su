@@ -1,0 +1,9 @@
+ping.c:125:6:pingInit	8	static
+ping.c:146:9:pingSetTimeout	0	static
+ping.c:167:9:pingBindToInterface	0	static
+ping.c:190:9:pingSendRequest	56	static
+ping.c:363:9:pingCheckReply	16	static
+ping.c:457:9:pingWaitForReply.part.0	72	static
+ping.c:457:9:pingWaitForReply	0	static
+ping.c:551:6:pingRelease	8	static
+ping.c:69:9:ping	96	static

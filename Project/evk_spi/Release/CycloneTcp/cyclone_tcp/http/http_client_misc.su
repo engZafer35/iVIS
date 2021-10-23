@@ -1,0 +1,11 @@
+http_client_misc.c:55:6:httpClientChangeState	8	static
+http_client_misc.c:72:6:httpClientChangeRequestState	8	static
+http_client_misc.c:89:9:httpClientFormatRequestHeader	16	static
+http_client_misc.c:155:9:httpClientFormatChunkSize	24	static
+http_client_misc.c:212:9:httpClientParseStatusLine	24	static
+http_client_misc.c:426:9:httpClientParseConnectionField	32	static
+http_client_misc.c:477:9:httpClientParseTransferEncodingField	8	static
+http_client_misc.c:507:9:httpClientParseContentLengthField	16	static
+http_client_misc.c:296:9:httpClientParseHeaderField	40	static
+http_client_misc.c:538:9:httpClientParseChunkSize	24	static
+http_client_misc.c:585:9:httpClientCheckTimeout	0	static

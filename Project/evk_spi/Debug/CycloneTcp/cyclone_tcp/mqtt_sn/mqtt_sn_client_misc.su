@@ -1,0 +1,13 @@
+mqtt_sn_client_misc.c:53:9:mqttSnClientProcessEvents	72	static
+mqtt_sn_client_misc.c:170:18:mqttSnDeliverPublishMessage	48	static
+mqtt_sn_client_misc.c:240:9:mqttSnClientAddTopic	32	static
+mqtt_sn_client_misc.c:290:9:mqttSnClientDeleteTopic	24	static
+mqtt_sn_client_misc.c:321:15:mqttSnClientFindTopicId	24	static
+mqtt_sn_client_misc.c:358:10:mqttSnClientFindTopicName	24	static
+mqtt_sn_client_misc.c:395:15:mqttSnClientFindPredefTopicId	24	static
+mqtt_sn_client_misc.c:432:10:mqttSnClientFindPredefTopicName	24	static
+mqtt_sn_client_misc.c:468:10:mqttSnClientGenerateMessageId	16	static
+mqtt_sn_client_misc.c:488:9:mqttSnClientStoreMessageId	24	static
+mqtt_sn_client_misc.c:532:9:mqttSnClientDiscardMessageId	24	static
+mqtt_sn_client_misc.c:565:8:mqttSnClientIsDuplicateMessageId	24	static
+mqtt_sn_client_misc.c:598:8:mqttSnClientIsShortTopicName	24	static

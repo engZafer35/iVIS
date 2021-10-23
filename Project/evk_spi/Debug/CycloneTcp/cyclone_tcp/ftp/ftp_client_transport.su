@@ -1,0 +1,7 @@
+ftp_client_transport.c:53:9:ftpClientOpenChannel	32	static
+ftp_client_transport.c:102:9:ftpClientOpenSecureChannel	24	static
+ftp_client_transport.c:174:9:ftpClientEstablishSecureChannel	16	static
+ftp_client_transport.c:192:9:ftpClientShutdownChannel	24	static
+ftp_client_transport.c:229:6:ftpClientCloseChannel	16	static
+ftp_client_transport.c:259:9:ftpClientWriteChannel	40	static
+ftp_client_transport.c:293:9:ftpClientReadChannel	40	static

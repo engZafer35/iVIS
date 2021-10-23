@@ -1,0 +1,6 @@
+modbus_client_transport.c:50:9:modbusClientOpenConnection	24	static
+modbus_client_transport.c:129:9:modbusClientEstablishConnection	32	static
+modbus_client_transport.c:169:9:modbusClientShutdownConnection	24	static
+modbus_client_transport.c:206:6:modbusClientCloseConnection	16	static
+modbus_client_transport.c:236:9:modbusClientSendData	40	static
+modbus_client_transport.c:270:9:modbusClientReceiveData	40	static

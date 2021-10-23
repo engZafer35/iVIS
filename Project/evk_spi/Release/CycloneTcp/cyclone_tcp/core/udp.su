@@ -1,0 +1,12 @@
+udp.c:63:9:udpInit	8	static
+udp.c:81:10:udpGetDynamicPort	8	static
+udp.c:532:9:udpSendBuffer	72	static
+udp.c:792:12:udpAllocBuffer	8	static
+udp.c:418:9:udpSendDatagram	88	static
+udp.c:815:6:udpUpdateEvents	8	static
+udp.c:689:9:udpReceiveDatagram	24	static
+udp.c:861:9:udpAttachRxCallback	20	static
+udp.c:902:9:udpDetachRxCallback	16	static
+udp.c:948:9:udpInvokeRxCallback	56	static
+udp.c:124:9:udpProcessDatagram	56	static
+udp.c:1011:6:udpDumpHeader	0	static

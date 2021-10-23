@@ -1,0 +1,5 @@
+modbus_server_transport.c:50:6:modbusServerAcceptConnection	48	static
+modbus_server_transport.c:147:9:modbusServerShutdownConnection	24	static
+modbus_server_transport.c:215:6:modbusServerCloseConnection	16	static
+modbus_server_transport.c:251:9:modbusServerSendData	40	static
+modbus_server_transport.c:285:9:modbusServerReceiveData	40	static

@@ -1,0 +1,6 @@
+igmp_common.c:59:9:igmpInit	24	static
+igmp_common.c:91:6:igmpTick	16	static
+igmp_common.c:123:6:igmpLinkChangeEvent	16	static
+igmp_common.c:141:9:igmpSendMessage	88	static
+igmp_common.c:259:6:igmpProcessMessage	32	static
+igmp_common.c:339:6:igmpDumpMessage	16	static

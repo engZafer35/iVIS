@@ -1,0 +1,7 @@
+tcp_timer.c:96:6:tcpCheckRetransmitTimer	16	static
+tcp_timer.c:183:6:tcpCheckPersistTimer	24	static
+tcp_timer.c:240:6:tcpCheckKeepAliveTimer	0	static
+tcp_timer.c:320:6:tcpCheckOverrideTimer	32	static
+tcp_timer.c:393:6:tcpCheckFinWait2Timer	8	static
+tcp_timer.c:419:6:tcpCheckTimeWaitTimer	16	static
+tcp_timer.c:56:6:tcpTick	16	static

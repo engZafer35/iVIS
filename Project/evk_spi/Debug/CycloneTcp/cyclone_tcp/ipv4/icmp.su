@@ -1,0 +1,8 @@
+icmp.c:57:6:icmpProcessMessage	32	static
+icmp.c:138:6:icmpProcessEchoRequest	112	static
+icmp.c:270:9:icmpSendErrorMessage	96	static
+icmp.c:372:6:icmpUpdateInStats	16	static
+icmp.c:436:6:icmpUpdateOutStats	16	static
+icmp.c:504:6:icmpDumpMessage	16	static
+icmp.c:518:6:icmpDumpEchoMessage	16	static
+icmp.c:534:6:icmpDumpErrorMessage	16	static

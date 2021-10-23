@@ -1,0 +1,14 @@
+ethernet.c:67:9:ethInit	16	static
+ethernet.c:87:6:ethProcessFrame	56	static
+ethernet.c:400:9:ethSendFrame	48	static
+ethernet.c:595:9:ethAcceptMacAddr	32	static
+ethernet.c:665:9:ethDropMacAddr	24	static
+ethernet.c:720:9:ethAttachLlcRxCalback	24	static
+ethernet.c:748:9:ethDetachLlcRxCalback	16	static
+ethernet.c:776:12:ethAllocBuffer	24	static
+ethernet.c:820:9:macStringToAddr	32	static
+ethernet.c:918:9:macAddrToString	40	static
+ethernet.c:941:6:macAddrToEui64	16	static
+ethernet.c:968:6:ethDumpHeader	16	static
+ethernet.c:990:9:eui64StringToAddr	32	static
+ethernet.c:1088:9:eui64AddrToString	56	static

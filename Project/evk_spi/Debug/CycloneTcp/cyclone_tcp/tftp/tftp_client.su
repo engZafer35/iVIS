@@ -1,0 +1,9 @@
+tftp_client.c:59:9:tftpClientInit	16	static
+tftp_client.c:83:9:tftpClientBindToInterface	16	static
+tftp_client.c:106:9:tftpClientConnect	24	static
+tftp_client.c:135:9:tftpClientOpenFile	32	static
+tftp_client.c:270:9:tftpClientWriteFile	40	static
+tftp_client.c:357:9:tftpClientFlushFile	24	static
+tftp_client.c:422:9:tftpClientReadFile	32	static
+tftp_client.c:524:9:tftpClientCloseFile	16	static
+tftp_client.c:546:6:tftpClientDeinit	16	static

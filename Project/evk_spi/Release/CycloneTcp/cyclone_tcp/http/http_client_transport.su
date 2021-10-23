@@ -1,0 +1,7 @@
+http_client_transport.c:50:9:httpClientOpenConnection	8	static
+http_client_transport.c:129:9:httpClientEstablishConnection	0	static
+http_client_transport.c:163:9:httpClientShutdownConnection	0	static
+http_client_transport.c:200:6:httpClientCloseConnection	8	static
+http_client_transport.c:230:9:httpClientSendData	0	static
+http_client_transport.c:264:9:httpClientReceiveData	0	static
+http_client_transport.c:294:9:httpClientSaveSession	0	static

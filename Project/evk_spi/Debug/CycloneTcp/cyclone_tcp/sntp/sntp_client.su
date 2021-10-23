@@ -1,0 +1,7 @@
+sntp_client.c:55:9:sntpClientInit	16	static
+sntp_client.c:82:9:sntpClientSetTimeout	16	static
+sntp_client.c:103:9:sntpClientBindToInterface	16	static
+sntp_client.c:126:9:sntpClientSetServerAddr	24	static
+sntp_client.c:154:9:sntpClientGetTimestamp	24	static
+sntp_client.c:233:10:sntpClientGetKissCode	24	static
+sntp_client.c:259:6:sntpClientDeinit	16	static

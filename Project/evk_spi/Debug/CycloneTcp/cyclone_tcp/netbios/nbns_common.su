@@ -1,0 +1,5 @@
+nbns_common.c:56:9:nbnsInit	24	static
+nbns_common.c:83:6:nbnsProcessMessage	40	static
+nbns_common.c:153:8:nbnsEncodeName	32	static
+nbns_common.c:205:8:nbnsParseName	40	static
+nbns_common.c:289:8:nbnsCompareName	40	static

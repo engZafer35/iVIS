@@ -1,0 +1,7 @@
+modbus_client_misc.c:52:9:modbusClientTransaction	40	static
+modbus_client_misc.c:211:9:modbusClientCheckResp	32	static
+modbus_client_misc.c:271:9:modbusClientFormatMbapHeader	24	static
+modbus_client_misc.c:320:9:modbusClientParseMbapHeader	24	static
+modbus_client_misc.c:375:7:modbusClientGetRequestPdu	16	static
+modbus_client_misc.c:389:7:modbusClientGetResponsePdu	24	static
+modbus_client_misc.c:413:9:modbusClientCheckTimeout	16	static

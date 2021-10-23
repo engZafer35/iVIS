@@ -1,0 +1,7 @@
+mqtt_sn_client_transport.c:51:9:mqttSnClientOpenConnection	24	static
+mqtt_sn_client_transport.c:138:9:mqttSnClientEstablishConnection	16	static
+mqtt_sn_client_transport.c:178:9:mqttSnClientShutdownConnection	24	static
+mqtt_sn_client_transport.c:204:6:mqttSnClientCloseConnection	16	static
+mqtt_sn_client_transport.c:240:9:mqttSnClientBroadcastDatagram	40	static
+mqtt_sn_client_transport.c:258:9:mqttSnClientSendDatagram	48	static
+mqtt_sn_client_transport.c:296:9:mqttSnClientReceiveDatagram	48	static

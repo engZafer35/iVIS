@@ -1,0 +1,7 @@
+mqtt_client_transport.c:53:9:mqttClientOpenConnection	24	static
+mqtt_client_transport.c:214:9:mqttClientEstablishConnection	32	static
+mqtt_client_transport.c:311:9:mqttClientShutdownConnection	24	static
+mqtt_client_transport.c:383:6:mqttClientCloseConnection	16	static
+mqtt_client_transport.c:440:9:mqttClientSendData	40	static
+mqtt_client_transport.c:512:9:mqttClientReceiveData	40	static
+mqtt_client_transport.c:595:9:mqttClientWaitForData	24	static

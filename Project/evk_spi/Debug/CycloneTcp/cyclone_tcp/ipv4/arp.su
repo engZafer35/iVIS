@@ -1,0 +1,16 @@
+arp.c:60:9:arpInit	16	static
+arp.c:75:6:arpFlushCache	24	static
+arp.c:100:16:arpCreateEntry	32	static
+arp.c:152:16:arpFindEntry	24	static
+arp.c:183:6:arpSendQueuedPackets	40	static
+arp.c:223:6:arpFlushQueuedPackets	24	static
+arp.c:251:9:arpResolve	32	static
+arp.c:344:9:arpEnqueuePacket	56	static
+arp.c:432:6:arpTick	32	static
+arp.c:543:6:arpProcessPacket	40	static
+arp.c:662:6:arpProcessRequest	32	static
+arp.c:732:6:arpProcessReply	24	static
+arp.c:814:9:arpSendProbe	80	static
+arp.c:874:9:arpSendRequest	88	static
+arp.c:943:9:arpSendReply	88	static
+arp.c:1001:6:arpDumpPacket	16	static

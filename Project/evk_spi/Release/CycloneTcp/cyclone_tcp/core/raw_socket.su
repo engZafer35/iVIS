@@ -1,0 +1,7 @@
+raw_socket.c:466:9:rawSocketSendIpPacket	88	static
+raw_socket.c:639:9:rawSocketSendEthPacket	48	static
+raw_socket.c:971:6:rawSocketUpdateEvents	8	static
+raw_socket.c:68:9:rawSocketProcessIpPacket	56	static
+raw_socket.c:307:6:rawSocketProcessEthPacket	48	static
+raw_socket.c:775:9:rawSocketReceiveIpPacket	24	static
+raw_socket.c:879:9:rawSocketReceiveEthPacket	24	static

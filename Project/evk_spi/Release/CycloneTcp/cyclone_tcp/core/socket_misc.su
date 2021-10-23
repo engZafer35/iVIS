@@ -1,0 +1,4 @@
+socket_misc.c:53:9:socketAllocate	112	static
+socket_misc.c:195:6:socketRegisterEvents	16	static
+socket_misc.c:250:6:socketUnregisterEvents	8	static
+socket_misc.c:273:8:socketGetEvents	8	static
