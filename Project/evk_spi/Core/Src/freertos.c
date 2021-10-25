@@ -81,6 +81,7 @@ osThreadId defaultTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void secondTaskLoop(void const * argument);
+void udpTaskLoop(void const * argument);
 void thirdTaskLoop(void const * argument);
 
 SemaphoreHandle_t xSemaphore = NULL;
@@ -194,17 +195,22 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+//  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
+//  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 
-  osThreadDef(secondTask, secondTaskLoop, osPriorityNormal, 0, 512);
-  defaultTaskHandle = osThreadCreate(osThread(secondTask), NULL);
-
-  osThreadDef(thirdTask, thirdTaskLoop, osPriorityNormal, 0, 512);
-  defaultTaskHandle = osThreadCreate(osThread(thirdTask), NULL);
+//  osThreadDef(secondTask, secondTaskLoop, osPriorityNormal, 0, 512);
+//  defaultTaskHandle = osThreadCreate(osThread(secondTask), NULL);
+//
+//  osThreadDef(udpTask, udpTaskLoop, osPriorityNormal, 0, 512);
+//  defaultTaskHandle = osThreadCreate(osThread(udpTask), NULL);
+//
+//   HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, TRUE);
+//
+//  osThreadDef(thirdTask, thirdTaskLoop, osPriorityNormal, 0, 512);
+//  defaultTaskHandle = osThreadCreate(osThread(thirdTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 
@@ -269,54 +275,57 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END StartDefaultTask */
 }
 
-/* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
-//void secondTaskLoop(void const * argument)
-//{
-//  /* USER CODE BEGIN StartDefaultTask */
-//  /* Infinite loop */
-//    OsEvent event;
-//
-////    int socket_desc;
-////    struct sockaddr_in server_addr;
-////    char server_message[2000] = "";
-////    char client_message[2000] = "";
-////
-////    socket_desc = socket(AF_INET, SOCK_STREAM, 0);
-////
-////    if(socket_desc < 0){
-////        printf("Unable to create socket\n");
-////        return -1;
-////    }
-////
-////    // Set port and IP the same as server-side:
-////    server_addr.sin_family = AF_INET;
-////    server_addr.sin_port = htons(2000);
-////    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
-////
-////    // Send connection request to server:
-////    if(connect(socket_desc, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
-////    {
-////        HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-////    }
-//    event.handle = xSemaphoreCreateBinaryStatic(&event.buffer);
-//  for(;;)
-//  {
-//	  HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
-//
-//	  xSemaphoreTake(event.handle, portMAX_DELAY);
-//
-//	  vTaskSuspendAll();
-//
-//	  HAL_Delay(100);
-//
-//	  xTaskResumeAll();
-//
-//
-//	  osDelay(450);
-//  }
-//  /* USER CODE END StartDefaultTask */
-//}
+void udpTaskLoop(void const * argument)
+{
+    int socket_desc;
+    struct sockaddr_in server_addr;
+    char server_message[32] = "", client_message[32] = "";
+    int server_struct_length = sizeof(server_addr);
+    int i = 0;
+
+    osDelayTask(500);
+
+    // Clean buffers:
+    memset(server_message, '\0', sizeof(server_message));
+    memset(client_message, '\0', sizeof(client_message));
+
+    // Create socket:
+    socket_desc = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+    if(socket_desc < 0)
+    {
+        printf("Error while creating socket\n");
+        HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+
+    }
+
+    // Set port and IP:
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(2001);
+    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
+
+    while(1)
+    {
+        sprintf(client_message, "--> Client UDP STM Msg %d ", i++);
+        // Send the message to server:
+        if(sendto(socket_desc, client_message, strlen(client_message), 0, \
+           (struct sockaddr*)&server_addr, server_struct_length) < 0)
+        {
+            HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+        }
+
+//        // Receive the server's response:
+//        if(recvfrom(socket_desc, server_message, sizeof(server_message), 0,
+//            (struct sockaddr*)&server_addr, &server_struct_length) < 0)
+//        {
+//            HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+//        }
+
+        HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
+        osDelayTask(500);
+    }
+}
+
 
 /* ... Do other things. */
 void secondTaskLoop(void const * argument)
@@ -326,7 +335,7 @@ void secondTaskLoop(void const * argument)
     char server_message[32] = "", client_message[32] = "1";
     int i;
 
-    osDelayTask(500);
+    osDelayTask(600);
 
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -395,7 +404,7 @@ void thirdTaskLoop(void const * argument)
         err = ping(&netInterface[0], &ip, 32, 0xFF, 500, NULL);
 
         HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
-        osDelay(600);
+        osDelay(1000);
     }
 }
 
