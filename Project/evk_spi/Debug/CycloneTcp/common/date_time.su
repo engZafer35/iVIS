@@ -1,8 +1,0 @@
-date_time.c:78:15:formatSystemTime	32	static
-date_time.c:134:15:formatDate	56	static
-date_time.c:166:6:getCurrentDate	24	static
-date_time.c:181:15:getCurrentUnixTime	4	static
-date_time.c:199:6:convertUnixTimeToDate	56	static
-date_time.c:259:8:convertDateToUnixTime	32	static
-date_time.c:303:7:compareDateTime	24	static
-date_time.c:352:9:computeDayOfWeek	32	static

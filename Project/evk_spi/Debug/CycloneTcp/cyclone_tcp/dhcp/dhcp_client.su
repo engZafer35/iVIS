@@ -1,5 +1,0 @@
-dhcp_client.c:57:6:dhcpClientGetDefaultSettings	16	static
-dhcp_client.c:92:9:dhcpClientInit	32	static
-dhcp_client.c:135:9:dhcpClientStart	24	static
-dhcp_client.c:194:9:dhcpClientStop	24	static
-dhcp_client.c:237:11:dhcpClientGetState	24	static

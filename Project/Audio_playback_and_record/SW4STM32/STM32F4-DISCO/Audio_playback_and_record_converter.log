@@ -1,0 +1,7 @@
+Project: Audio_playback_and_record
+Converter: ST System Workbench for STM32 project converter
+Date: 20211027
+
+Option fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.noexceptions is no longer supported
+Option fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.nortti is no longer supported
+Unknown value type "" for id gnu.both.asm.option.include.paths on tool fr.ac6.managedbuild.tool.gnu.cross.assembler

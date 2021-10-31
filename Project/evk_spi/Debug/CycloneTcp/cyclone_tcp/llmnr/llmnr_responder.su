@@ -1,3 +1,0 @@
-llmnr_responder.c:51:9:llmnrResponderInit	24	static
-llmnr_responder.c:95:6:llmnrProcessQuery	72	static
-llmnr_responder.c:237:9:llmnrSendResponse	104	static

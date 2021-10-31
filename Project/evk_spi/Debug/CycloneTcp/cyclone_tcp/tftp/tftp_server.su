@@ -1,6 +1,0 @@
-tftp_server.c:58:6:tftpServerGetDefaultSettings	16	static
-tftp_server.c:84:9:tftpServerInit	32	static
-tftp_server.c:130:9:tftpServerStart	32	static
-tftp_server.c:212:9:tftpServerStop	24	static
-tftp_server.c:259:6:tftpServerTask	32	static
-tftp_server.c:351:6:tftpServerDeinit	16	static

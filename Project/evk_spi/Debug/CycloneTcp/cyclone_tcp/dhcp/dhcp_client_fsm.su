@@ -1,9 +1,0 @@
-dhcp_client_fsm.c:56:6:dhcpClientStateInit	24	static
-dhcp_client_fsm.c:96:6:dhcpClientStateSelecting	32	static
-dhcp_client_fsm.c:158:6:dhcpClientStateRequesting	32	static
-dhcp_client_fsm.c:237:6:dhcpClientStateInitReboot	24	static
-dhcp_client_fsm.c:277:6:dhcpClientStateRebooting	32	static
-dhcp_client_fsm.c:355:6:dhcpClientStateProbing	32	static
-dhcp_client_fsm.c:426:6:dhcpClientStateBound	24	static
-dhcp_client_fsm.c:471:6:dhcpClientStateRenewing	24	static
-dhcp_client_fsm.c:540:6:dhcpClientStateRebinding	24	static

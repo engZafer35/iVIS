@@ -1,6 +1,0 @@
-igmp_host_misc.c:52:9:igmpHostSendMembershipReport	32	static
-igmp_host_misc.c:99:9:igmpHostSendLeaveGroup	32	static
-igmp_host_misc.c:145:6:igmpHostProcessMessage	24	static
-igmp_host_misc.c:174:6:igmpHostProcessMembershipQuery	48	static
-igmp_host_misc.c:275:6:igmpHostProcessMembershipReport	32	static
-igmp_host_misc.c:319:10:igmpRand	16	static

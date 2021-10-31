@@ -1,6 +1,0 @@
-spi_driver.c:61:9:spiInit	4	static
-spi_driver.c:73:9:spiSetMode	16	static
-spi_driver.c:85:9:spiSetBitrate	16	static
-spi_driver.c:96:6:spiAssertCs	16	static
-spi_driver.c:108:6:spiDeassertCs	16	static
-spi_driver.c:124:9:spiTransfer	32	static
