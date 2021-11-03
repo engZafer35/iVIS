@@ -16,7 +16,7 @@
 /******************************MACRO DEFINITIONS*******************************/
 typedef enum JOB_LIST
 {
-    EN_JOB_MAGANER,
+    EN_JOB_MANAGER,
     EN_JOB_SYS_EVENT_HANDLER,
     EN_JOB_EVENT_MANAGER,
     EN_JOB_UI_MAGER,

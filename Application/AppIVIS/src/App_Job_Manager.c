@@ -20,5 +20,57 @@
 /***************************** STATIC FUNCTIONS  ******************************/
 
 /***************************** PUBLIC FUNCTIONS  ******************************/
+RETURN_STATUS appJobStartJob(EN_JOB_LIST job)
+{
+    RETURN_STATUS retVal = FAILURE_RET;
+
+    if (job < EN_JOB_MAX_NUMBER)
+    {
+        retVal = SUCCESS_RET;
+    }
+
+    return retVal;
+}
+
+RETURN_STATUS appJobStoptJob(EN_JOB_LIST job)
+{
+    RETURN_STATUS retVal = FAILURE_RET;
+
+    if (job < EN_JOB_MAX_NUMBER)
+    {
+        retVal = SUCCESS_RET;
+    }
+
+    return retVal;
+}
+
+RETURN_STATUS appJobStopAll(void)
+{
+    return SUCCESS_RET;
+}
+
+RETURN_STATUS appJobDestroyJob(EN_JOB_LIST job)
+{
+    RETURN_STATUS retVal = FAILURE_RET;
+
+    if (job < EN_JOB_MAX_NUMBER)
+    {
+        retVal = SUCCESS_RET;
+    }
+
+    return retVal;
+}
+
+BOOL appJobIsRunning(EN_JOB_LIST job)
+{
+    BOOL retVal = FALSE;
+
+    if (job < EN_JOB_MAX_NUMBER)
+    {
+        retVal = TRUE;
+    }
+
+    return retVal;
+}
 
 /******************************** End Of File *********************************/
