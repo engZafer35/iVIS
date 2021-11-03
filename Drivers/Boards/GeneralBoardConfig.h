@@ -29,7 +29,7 @@
 
 
 #if (CURRENT_BOARD == BOARD_STM_010101)
-#include "BoardConfig_STM_010101.h"
+#include "BoardConfig_STM_021121.h"
 #elif (CURRENT_BOARD == BOARD_STM_LP_010101)
 #include "BoardConfig_STM_LP_010101.h"
 #elif (CURRENT_BOARD == BOARD_NXP_010102)

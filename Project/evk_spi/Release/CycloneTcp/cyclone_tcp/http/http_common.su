@@ -1,6 +1,0 @@
-http_common.c:49:9:httpCheckCharset	32	static
-http_common.c:117:9:httpParseParam	56	static
-http_common.c:368:8:httpCompareParamName	24	static
-http_common.c:401:8:httpCompareParamValue	24	static
-http_common.c:435:9:httpCopyParamValue	16	static
-http_common.c:475:6:httpEncodeHexString	16	static

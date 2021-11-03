@@ -59,8 +59,8 @@
 #define APP_IPV4_SECONDARY_DNS "8.8.4.4"
 
 
-#define APP_SET_CIPHER_SUITES 	DISABLED
-#define APP_SET_SERVER_NAME 	ENABLED
+#define APP_SET_CIPHER_SUITES   DISABLED
+#define APP_SET_SERVER_NAME     ENABLED
 #define APP_SET_TRUSTED_CA_LIST ENABLED
 /* USER CODE END PD */
 
@@ -120,7 +120,7 @@ void MX_FREERTOS_Init(void) {
     Ipv4Addr ipv4Addr;
 
 
-	   //TCP/IP stack initialization
+       //TCP/IP stack initialization
     error = netInit();
     if(error)
     {
@@ -267,13 +267,14 @@ void StartDefaultTask(void const * argument)
 //          HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, TRUE);
 //      }
 
-	  HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
-	  osDelayTask(500);
+      HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
+      osDelayTask(500);
   }
 
   /* USER CODE END StartDefaultTask */
 }
 
+/* USER CODE BEGIN Application */
 void udpTaskLoop(void const * argument)
 {
     int socket_desc;

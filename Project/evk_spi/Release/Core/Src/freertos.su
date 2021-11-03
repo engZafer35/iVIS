@@ -1,6 +1,0 @@
-freertos.c:101:6:vApplicationGetIdleTaskMemory	0	static
-freertos.c:115:6:MX_FREERTOS_Init	24	static
-freertos.c:226:6:StartDefaultTask	144	static
-freertos.c:278:6:udpTaskLoop	112	static
-freertos.c:331:6:secondTaskLoop	104	static
-freertos.c:392:6:thirdTaskLoop	32	static
