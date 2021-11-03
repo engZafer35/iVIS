@@ -49,7 +49,7 @@ RETURN_STATUS appJobStopAll(void)
     return SUCCESS_RET;
 }
 
-RETURN_STATUS appJobDestroyJob(EN_JOB_LIST job)
+RETURN_STATUS appJobKillJob(EN_JOB_LIST job)
 {
     RETURN_STATUS retVal = FAILURE_RET;
 

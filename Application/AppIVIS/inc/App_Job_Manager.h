@@ -64,7 +64,7 @@ RETURN_STATUS appJobStopAll(void);
  * \return  if everything is OK, return EN_SUCCES
  *          otherwise return EN_FAILURE
  */
-RETURN_STATUS appJobDestroyJob(EN_JOB_LIST job);
+RETURN_STATUS appJobKillJob(EN_JOB_LIST job);
 
 /**
  * \brief   get job status
