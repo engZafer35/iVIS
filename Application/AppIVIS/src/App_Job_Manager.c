@@ -181,7 +181,7 @@ RETURN_STATUS appJobStartJob(EN_JOB_LIST job)
             return FAILURE; /*< job killed, before start, it must be created */
         }
 
-        //todo: resume task
+        osThreadResume(g_jobList[job].taskId);
         g_jobList[job].taskStat = EN_RUNNING;
         retVal = SUCCESS;
     }
@@ -204,7 +204,7 @@ RETURN_STATUS appJobStoptJob(EN_JOB_LIST job)
             return FAILURE; /*< job killed, it can not be stopped */
         }
 
-        //todo: stop task
+        osThreadSuspend(g_jobList[job].taskId);
         g_jobList[job].taskStat = EN_STOPED;
         retVal = SUCCESS;
     }
@@ -214,6 +214,14 @@ RETURN_STATUS appJobStoptJob(EN_JOB_LIST job)
 
 RETURN_STATUS appJobStopAll(void)
 {
+    EN_JOB_LIST i;
+
+    for (i = EN_JOB_SYS_EVENT_HANDLER; i < EN_JOB_MAX_NUMBER; ++i)
+    {
+        osThreadSuspend(g_jobList[i].taskId);
+        g_jobList[i].taskStat = EN_STOPED;
+    }
+
     return SUCCESS;
 }
 
@@ -232,8 +240,7 @@ RETURN_STATUS appJobKillJob(EN_JOB_LIST job)
             return FAILURE; /*< job not created, firstly it should be created*/
         }
 
-
-        //todo: kill/destroy task
+        osThreadTerminate(g_jobList[job].taskId);
         g_jobList[job].taskStat = EN_KILLED;
         retVal = SUCCESS;
     }
