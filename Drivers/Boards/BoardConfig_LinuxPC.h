@@ -50,6 +50,11 @@ typedef DRV_RET             _DRV_RET_TYPE;
 #define _GPIO_READ(port, pin)
 #define _GPIO_TOGGLE(port, pin)
 
+#define _LED_1(x)
+#define _LED_2(x)
+#define _LED_3(x)
+#define _LED_4(x)
+
 /****************** BOARD I2C CONTROL *******************/
 #define _I2C1_INIT()
 #define _I2C2_INIT()
@@ -79,6 +84,9 @@ typedef DRV_RET             _DRV_RET_TYPE;
 /****************** BOARD SPI CONTROL *******************/
 #define _SPI_INIT()
 
+/****************** BOARD DMA CONTROL *******************/
+#define _DMA_INIT()
+
 /****************** BOARD TIMER CONTROL *******************/
 #define _TIMER_ALERT_INIT()
 #define _TIMER_EVENT_INIT()
@@ -86,6 +94,8 @@ typedef DRV_RET             _DRV_RET_TYPE;
 
 #define _TIMER_EVENT_START()    (EN_DRV_RET_OK)
 #define _TIMER_ALERT_START()    (EN_DRV_RET_OK)
+
+#define _CORE_TIMER_IT_FUNCTION void foo(void)
 
 /****************** BOARD CAN CONTROL *******************/
 #define _CAN_1_INIT()            (EN_DRV_RET_OK)

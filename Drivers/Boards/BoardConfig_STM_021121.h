@@ -15,13 +15,17 @@
 #include "main.h"
 #include "stm32f4xx_hal_def.h"
 #include "stm32f4xx_hal.h"
-//#include "DriverCoreIWDT.h"
+#include "DriverCoreIWDT.h"
 //#include "DriverSTM32_ADC.h"
 #include "gpio.h"
 //#include "i2c.h"
 //#include "tim.h"
 #include "usart.h"
 //#include "can.h"
+#include "cmsis_os.h"
+#include "dma.h"
+#include "spi.h"
+
 
 #define BOARD_NAME            "iVIS_STM_021121"
 #define BOARD_VERSION         "V1.0"
@@ -156,11 +160,13 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 #define _GPIO_TOGGLE(port, pin)         HAL_GPIO_TogglePin(port, pin)
 #define _GPIO_READ(port, pin)           HAL_GPIO_ReadPin(port, pin)
 
-#define _LED_1(x)                       _WRITE_GPIO(OUT_LED_PROC_GPIO_Port, OUT_LED_PROC_Pin, x)
-#define _LED_2(x)                       _WRITE_GPIO(OUT_LED_PWR_GPIO_Port, OUT_LED_PWR_Pin, x)
+#define _LED_1(x)                       _WRITE_GPIO(LED_PROC_GPIO_Port, LED_PROC_Pin, x)
+#define _LED_2(x)                       _WRITE_GPIO(LED_POWER_GPIO_Port, LED_POWER_Pin, x)
+#define _LED_3(x)                       _WRITE_GPIO(LED_ERROR_GPIO_Port, LED_ERROR_Pin, x)
+#define _LED_4(x)                       _WRITE_GPIO(LED_INFO_GPIO_Port, LED_INFO_Pin, x)
 
-#define _TOGGLE_LED_1()                  _GPIO_TOGGLE(OUT_LED_PROC_GPIO_Port, OUT_LED_PROC_Pin)
-#define _TOGGLE_LED_2()                  _GPIO_TOGGLE(OUT_LED_PWR_GPIO_Port, OUT_LED_PWR_Pin)
+#define _TOGGLE_LED_1()                 _GPIO_TOGGLE(LED_PROC_GPIO_Port, LED_PROC_Pin)
+#define _TOGGLE_LED_2()                 _GPIO_TOGGLE(LED_POWER_GPIO_Port, LED_POWER_Pin)
 
 #define _BUZZER(x)                      _WRITE_GPIO(OUT_BUZZER_GPIO_Port, OUT_BUZZER_Pin, x)
 #define _BUZZER_TOGGLE()                _GPIO_TOGGLE(OUT_BUZZER_GPIO_Port, OUT_BUZZER_Pin)
@@ -191,7 +197,10 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
                                                                                        I2C_MEMADD_SIZE_8BIT, (uint8_t *)buff, leng, 100)
 
 /********************* BOARD SPI CONTROL ******************/
-#define _SPI_INIT()
+#define _SPI_INIT()     MX_SPI2_Init()
+
+/****************** BOARD DMA CONTROL *******************/
+#define _DMA_INIT()     MX_DMA_Init()
 
 /********************* BOARD WDT CONTROL ******************/
 #define _WDT_INIT(x)    drvIwdtInit(x)
@@ -199,8 +208,8 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 #define _WDT_START()    drvIwdtStart()
 
 /********************* BOARD UART CONTROL ******************/
-#define _UART_DEBUG_INIT()                          MX_USART6_UART_Init()
-#define _UART_COMM_INIT()                           MX_USART2_UART_Init();
+#define _UART_DEBUG_INIT()                          MX_USART2_UART_Init()
+#define _UART_COMM_INIT()                          // MX_USART6_UART_Init();
 
 #define _UART_LINE_OBJ_TYPE                         UART_HandleTypeDef
 #define _UART_DEBUG_LINE                            (huart6)
@@ -211,9 +220,9 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 #define _LINE_COMM_1_RX_IT_ID                       (EN_USART1_IRQ)
 #define _LINE_COMM_2_RX_IT_ID                       (EN_USART2_IRQ)
 
-#define _IS_DBG_UART_IT()                           (USART6 == huart->Instance)
-#define _IS_COMM_1_UART_IT()                        (USART1 == huart->Instance)
-#define _IS_COMM_2_UART_IT()                        (USART2 == huart->Instance)
+#define _IS_DBG_UART_IT()                           (USART2 == huart->Instance)
+#define _IS_COMM_1_UART_IT()                        (USARTx == huart->Instance)
+#define _IS_COMM_2_UART_IT()                        (USARTx == huart->Instance)
 
 #define _UART_RCV_IT_FUNCTION                       void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 

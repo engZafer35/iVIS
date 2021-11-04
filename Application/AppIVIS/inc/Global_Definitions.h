@@ -137,8 +137,9 @@ typedef void (*VUICallback)(unsigned int x);
 /*******************************TYPE DEFINITIONS ******************************/
 typedef enum RETURN_STATUS_
 {
-    SUCCESS_RET,
-    FAILURE_RET = -1
+    FAILURE = -1,
+    SUCCESS = 0,
+
 }RETURN_STATUS;
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 

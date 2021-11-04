@@ -22,11 +22,11 @@
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appJobStartJob(EN_JOB_LIST job)
 {
-    RETURN_STATUS retVal = FAILURE_RET;
+    RETURN_STATUS retVal = FAILURE;
 
     if (job < EN_JOB_MAX_NUMBER)
     {
-        retVal = SUCCESS_RET;
+        retVal = SUCCESS;
     }
 
     return retVal;
@@ -34,11 +34,11 @@ RETURN_STATUS appJobStartJob(EN_JOB_LIST job)
 
 RETURN_STATUS appJobStoptJob(EN_JOB_LIST job)
 {
-    RETURN_STATUS retVal = FAILURE_RET;
+    RETURN_STATUS retVal = FAILURE;
 
     if (job < EN_JOB_MAX_NUMBER)
     {
-        retVal = SUCCESS_RET;
+        retVal = SUCCESS;
     }
 
     return retVal;
@@ -46,16 +46,16 @@ RETURN_STATUS appJobStoptJob(EN_JOB_LIST job)
 
 RETURN_STATUS appJobStopAll(void)
 {
-    return SUCCESS_RET;
+    return SUCCESS;
 }
 
 RETURN_STATUS appJobKillJob(EN_JOB_LIST job)
 {
-    RETURN_STATUS retVal = FAILURE_RET;
+    RETURN_STATUS retVal = FAILURE;
 
     if (job < EN_JOB_MAX_NUMBER)
     {
-        retVal = SUCCESS_RET;
+        retVal = SUCCESS;
     }
 
     return retVal;
