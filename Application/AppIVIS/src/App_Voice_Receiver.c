@@ -38,7 +38,28 @@
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
+#include "core/ping.h"
+static void vrTaskFunc(void const* argument)
+{
+    //TODO: creat socket
 
+    error_t err = ERROR_FAILURE;
+    IpAddr ip;
+
+    osDelayTask(500);
+
+    ip.length = sizeof(Ipv4Addr);
+    ip.ipv4Addr  = IPV4_ADDR(192,168, 0, 88);
+
+    while(1)
+    {
+        err = ping(&netInterface[0], &ip, 32, 0xFF, 500, NULL);
+
+        middIOToggle(EN_OUT_ERR_LED);
+
+        osDelay(1000);
+    }
+}
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appVoiceRecInit(void)
 {
@@ -125,24 +146,8 @@ RETURN_STATUS appVoiceRecMuteAllClient(U32 clinetNum, BOOL stat)
     return retVal;
 }
 
-RETURN_STATUS appVoiceRecTaskFunc(void const * argument)
+TaskFunc_t appVoiceRecGetTaskFunc(void)
 {
-    //TODO: creat socket
-
-    error_t err = ERROR_FAILURE;
-    IpAddr ip;
-
-    osDelayTask(500);
-
-    ip.length = sizeof(Ipv4Addr);
-    ip.ipv4Addr  = IPV4_ADDR(192,168, 0, 88);
-
-    while(1)
-    {
-        err = ping(&netInterface[0], &ip, 32, 0xFF, 500, NULL);
-
-        HAL_GPIO_TogglePin(LED_POWER_GPIO_Port, LED_POWER_Pin);
-        osDelay(1000);
-    }
+    return vrTaskFunc;
 }
 /******************************** End Of File *********************************/

@@ -62,12 +62,11 @@ RETURN_STATUS appVoiceRecMuteClient(U32 clinetNum, BOOL stat);
 RETURN_STATUS appVoiceRecMuteAllClient(U32 clinetNum, BOOL stat);
 
 /**
- * \brief   voice receiver task function. this funt
- * \param   job id
- * \return  if everything is OK, return EN_SUCCES
- *          otherwise return EN_FAILURE
+ * \brief   get voice receiver task function. this function
+ * \param   task argument
+ * \return  task function pointer
  */
-RETURN_STATUS appVoiceRecTaskFunc(void const* argument);
+TaskFunc_t appVoiceRecGetTaskFunc(void);
 
 #endif /* __APP_VOICE_RECEIVER_H__ */
 

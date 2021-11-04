@@ -48,23 +48,6 @@
 #endif
 
 /*******************************TYPE DEFINITIONS ******************************/
-//use for timer event id
-typedef enum _TimerID
-{
-    EN_TIMER_BIT,
-    #define BIT_TIME                    (WAIT_1_SEC)
-
-    EN_TIMER_PERIODIC_CAN_MSG,
-    #define PERIODIC_CAN_MSG_BASE_TIME  (0) /* !< if not need to send periodically can message, set 0 */
-
-    EN_TIMER_MAX_NUM
-}TimerID;
-
-typedef enum _SYSTEM_WORKING_MODE
-{
-    EN_MODE_WORKING,
-    EN_MODE_FAILURE,
-}SYSTEM_WORKING_MODE;
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 

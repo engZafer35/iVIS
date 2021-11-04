@@ -167,6 +167,7 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 
 #define _TOGGLE_LED_1()                 _GPIO_TOGGLE(LED_PROC_GPIO_Port, LED_PROC_Pin)
 #define _TOGGLE_LED_2()                 _GPIO_TOGGLE(LED_POWER_GPIO_Port, LED_POWER_Pin)
+#define _TOGGLE_LED_3()                 _GPIO_TOGGLE(LED_ERROR_GPIO_Port, LED_ERROR_Pin)
 
 #define _BUZZER(x)                      _WRITE_GPIO(OUT_BUZZER_GPIO_Port, OUT_BUZZER_Pin, x)
 #define _BUZZER_TOGGLE()                _GPIO_TOGGLE(OUT_BUZZER_GPIO_Port, OUT_BUZZER_Pin)

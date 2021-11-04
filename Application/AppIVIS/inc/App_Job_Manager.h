@@ -29,13 +29,36 @@ typedef enum JOB_LIST
 
     EN_JOB_MAX_NUMBER
 }EN_JOB_LIST;
+
+typedef enum _JOB_STATUS
+{
+    EN_NOT_CREATED,
+    EN_RUNNING,
+    EN_STOPED,
+    EN_KILLED,
+}JOB_STATUS;
 /*******************************TYPE DEFINITIONS ******************************/
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 /**
+* \brief   init job
+* \return  if everything is OK, return EN_SUCCES
+*          otherwise return EN_FAILURE
+*/
+RETURN_STATUS appJobInit(void);
+
+/**
  * \brief   start
+ * \param   job id
+ * \return  if everything is OK, return EN_SUCCES
+ *          otherwise return EN_FAILURE
+ */
+RETURN_STATUS appJobCreatJob(EN_JOB_LIST job);
+
+/**
+ * \brief   start job, before appJobCreatJob must be called
  * \param   job id
  * \return  if everything is OK, return EN_SUCCES
  *          otherwise return EN_FAILURE
@@ -60,6 +83,7 @@ RETURN_STATUS appJobStopAll(void);
 
 /**
  * \brief   stop and destroy job. All variables of job is deleted from memory.
+ *          if wanted to start the same job again, firstly appJobCreatJob must be called
  * \param   job id
  * \return  if everything is OK, return EN_SUCCES
  *          otherwise return EN_FAILURE
@@ -69,10 +93,9 @@ RETURN_STATUS appJobKillJob(EN_JOB_LIST job);
 /**
  * \brief   get job status
  * \param   job id
- * \return  if job is running return TRUE
- *          otherwise return FALSE
+ * \return  return job status, error -1
  */
-BOOL appJobIsRunning(EN_JOB_LIST job);
+JOB_STATUS appJobGetJobStatus(EN_JOB_LIST job);
 
 #endif /* __APP_JOB_MANAGER_H__ */
 

@@ -89,6 +89,7 @@
 
 #define CHECK_BIT(var,pos) (!!((var) & (1<<(pos))))
 
+typedef void (*TaskFunc_t)(void const* ts);
 typedef void (*VoidCallback)(void);
 typedef void (*VICallback)(int x);
 typedef void (*VUICallback)(unsigned int x);

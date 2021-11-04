@@ -155,12 +155,12 @@ RETURN_STATUS middIOToggle(EN_OUT_LIST out)
     {
         case EN_OUT_JOB_LED:
         {
-            TOGGLE_POWER_STATUS_LED();
+            TOGGLE_JOB_STATUS_LED();
             break;
         }
         case EN_OUT_ERR_LED:
         {
-            TOGGLE_JOB_STATUS_LED();
+            TOGGLE_ERR_STATUS_LED();
             break;
         }
         case EN_OUT_POWER_LED:

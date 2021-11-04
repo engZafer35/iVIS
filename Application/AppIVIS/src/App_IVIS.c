@@ -11,6 +11,7 @@
 #define SHOW_PAGE_DBG_MSG  (DISABLE)
 /********************************* INCLUDES ***********************************/
 #include "App_IVIS.h"
+#include "App_Job_Manager.h"
 #include "App_Voice_Receiver.h"
 #include "App_Global_Variables.h"
 
@@ -78,8 +79,9 @@ static RETURN_STATUS initSwUnits(void)
     {
         retVal |= appGVInit();
         retVal |= appVoiceRecInit();
-    }
 
+        retVal |= appJobInit();
+    }
 
     DBG_MSG(" ->[I] initSWRequirement return value: %d ", retVal);
     return retVal;
@@ -92,7 +94,7 @@ static RETURN_STATUS initDeviceDrivers(void)
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appIvisInit(void)
 {
-    RETURN_STATUS retVal = SUCCESS;
+    RETURN_STATUS retVal = FAILURE;
 
     if (SUCCESS == initMcuCore())
     {
@@ -114,6 +116,10 @@ RETURN_STATUS appIvisInit(void)
 RETURN_STATUS appIvisStart(void)
 {
     RETURN_STATUS retVal = SUCCESS;
+
+    retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
+    //TODO: create other jobs
+
 
     osKernelStart();
 
