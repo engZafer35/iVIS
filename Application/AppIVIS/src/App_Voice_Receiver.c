@@ -33,15 +33,88 @@
 #define APP_IPV4_HOST_ADDR          "192.168.0.35"
 #define APP_IPV4_SUBNET_MASK        "255.255.255.0"
 #define APP_IPV4_DEFAULT_GATEWAY    "192.168.0.254"
+
+#define UDP_BASE_PORT_NUM (2000)
 /******************************* TYPE DEFINITIONS *****************************/
+
+struct ClientUdpSocket
+{
+    struct sockaddr_in serverAddr;
+    U32  udpPortNum;
+    S32  socketfd;
+    BOOL isActive;
+};
+
+static struct ClientUdpSocket g_udpClients[MAX_CLIENT_NUMBER];
 
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
+
+static RETURN_STATUS createUdpSockets(U32 clientNum)
+{
+    RETURN_STATUS retVal = SUCCESS;
+
+    S32 socketfd;
+
+    socketfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if(socketfd < 0)
+    {
+        retVal = FAILURE;
+        TRACE_ERROR("[E]-> Socket could not be created for %d client\n\r", clientNum);
+    }
+
+    if (SUCCESS == retVal)
+    {
+        g_udpClients[clientNum].serverAddr.sin_family        = AF_INET;
+        g_udpClients[clientNum].serverAddr.sin_port          = htons(UDP_BASE_PORT_NUM + clientNum);
+        g_udpClients[clientNum].serverAddr.sin_addr.s_addr   = inet_addr("192.168.0.88");
+
+        // Bind the socket with the server address
+        if (bind(socketfd, (const struct sockaddr *)&g_udpClients[clientNum].serverAddr, sizeof(struct sockaddr_in)) < 0 )
+        {
+            retVal = FAILURE;
+        }
+    }
+
+    if (SUCCESS == retVal)
+    {
+        g_udpClients[clientNum].socketfd    = socketfd;
+        g_udpClients[clientNum].udpPortNum  = UDP_BASE_PORT_NUM + clientNum;
+        g_udpClients[clientNum].isActive    = TRUE;
+        TRACE_DEBUG("[D]-> Socket created for %d client\n\r", clientNum);
+    }
+
+    return retVal;
+}
+
+static void closeUdpSocket(U32 clientNum)
+{
+    closesocket(g_udpClients[clientNum].socketfd);
+
+    g_udpClients[clientNum].socketfd   = -1;
+    g_udpClients[clientNum].udpPortNum = 0;
+    g_udpClients[clientNum].isActive   = FALSE;
+}
+
 #include "core/ping.h"
 static void vrTaskFunc(void const* argument)
 {
-    //TODO: creat socket
+    {
+        U32 counterOK = 0;
+        U32 i;
+        for (i = 0; i < MAX_CLIENT_NUMBER; ++i)
+        {
+            if (SUCCESS == createUdpSockets(i))
+            {
+                counterOK++; //increase value for each created socket
+            }
+        }
+
+        //handle error. now, I dont know what should I do.
+    }
+
+
 
     error_t err = ERROR_FAILURE;
     IpAddr ip;
@@ -60,6 +133,7 @@ static void vrTaskFunc(void const* argument)
         osDelay(1000);
     }
 }
+
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appVoiceRecInit(void)
 {

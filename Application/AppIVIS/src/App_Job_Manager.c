@@ -55,7 +55,7 @@ RETURN_STATUS appJobInit(void)
     /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = 0; */                 /* < not needed, still zero */
 
 
-    //TODO: Creat queue
+    //TODO: Create queue
 
     g_jobList[EN_JOB_MANAGER].taskFunc = jobTaskFunc;
     osThreadDef(JOB_MANAGER, g_jobList[EN_JOB_MANAGER].taskFunc, osPriorityNormal, 0, 128);
