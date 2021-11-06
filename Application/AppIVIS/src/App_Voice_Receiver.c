@@ -25,6 +25,8 @@
 
 #include "MiddDigitalIOControl.h"
 /****************************** MACRO DEFINITIONS *****************************/
+
+/************* Connection Parameters ************/
 //Ethernet interface configuration
 #define APP_IF_NAME     "eth0"
 #define APP_HOST_NAME   "iVIS-Master"
@@ -35,6 +37,12 @@
 #define APP_IPV4_DEFAULT_GATEWAY    "192.168.0.254"
 
 #define UDP_BASE_PORT_NUM (2000)
+
+/********** Voice Packet Parameters ************/
+#define UDP_VOICE_PACKET_SIZE   (4096)
+#define UDP_VOICE_PACKET_TIME   (100)   //ms
+
+
 /******************************* TYPE DEFINITIONS *****************************/
 
 struct ClientUdpSocket
@@ -50,11 +58,21 @@ static struct ClientUdpSocket g_udpClients[MAX_CLIENT_NUMBER];
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
+/**
+ * \brief   this function is called when time of waiting voice packet end.
+ */
+static void voiceTimeSlot(void)
+{
+
+}
+
+
+//TODO: in order to copy received voice data to cycle buffer, dma should be used.
+
 
 static RETURN_STATUS createUdpSockets(U32 clientNum)
 {
     RETURN_STATUS retVal = SUCCESS;
-
     S32 socketfd;
 
     socketfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -114,23 +132,20 @@ static void vrTaskFunc(void const* argument)
         //handle error. now, I dont know what should I do.
     }
 
-
-
-    error_t err = ERROR_FAILURE;
-    IpAddr ip;
+    //TODO: create broadcast or multicast UDP socket
 
     osDelayTask(500);
 
-    ip.length = sizeof(Ipv4Addr);
-    ip.ipv4Addr  = IPV4_ADDR(192,168, 0, 88);
-
     while(1)
     {
-        err = ping(&netInterface[0], &ip, 32, 0xFF, 500, NULL);
 
-        middIOToggle(EN_OUT_ERR_LED);
 
-        osDelay(1000);
+        //todo: Give received all speech to voice creator to convert one voice signal.
+        //todo: create a udp message which contains all speech.
+
+
+
+
     }
 }
 
