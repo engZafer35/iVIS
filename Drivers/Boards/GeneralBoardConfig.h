@@ -71,6 +71,8 @@ typedef _EN_INTERRUPT_LIST EN_INTERRUPT_LIST;
 #define TOGGLE_POWER_STATUS_LED()       _TOGGLE_LED_2()
 #define TOGGLE_JOB_STATUS_LED()         _TOGGLE_LED_1()
 #define TOGGLE_ERR_STATUS_LED()         _TOGGLE_LED_3()
+#define TOGGLE_INFO_LED()               _TOGGLE_LED_4()
+
 
 #define CORE_EXT_IT_FUNCTION            _CORE_EXT_IT_FUNCTION
 

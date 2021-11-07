@@ -169,6 +169,11 @@ RETURN_STATUS middIOToggle(EN_OUT_LIST out)
             TOGGLE_POWER_STATUS_LED();
             break;
         }
+        case EN_OUT_INFO_LED:
+        {
+            TOGGLE_INFO_LED();
+            break;
+        }
     }
 
     return SUCCESS;

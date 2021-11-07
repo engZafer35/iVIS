@@ -119,7 +119,7 @@ static RETURN_STATUS createUdpSockets(U32 clientNum)
     {
         g_udpClients[clientNum].serverAddr.sin_family        = AF_INET;
         g_udpClients[clientNum].serverAddr.sin_port          = htons(UDP_BASE_PORT_NUM + clientNum);
-        g_udpClients[clientNum].serverAddr.sin_addr.s_addr   = inet_addr("192.168.0.88");
+        g_udpClients[clientNum].serverAddr.sin_addr.s_addr   = inet_addr("192.168.0.35");
 
         // Bind the socket with the server address
         if (bind(socketfd, (const struct sockaddr *)&g_udpClients[clientNum].serverAddr, sizeof(struct sockaddr_in)) < 0 )
@@ -176,32 +176,37 @@ static void vrTaskFunc(void const* argument)
     time.tv_sec = 0;
     time.tv_usec = 20000;
 
-//    bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, &time);
-//
-//
-//    if (FD_ISSET (i, &read_fd_set))
-//    {
-//        middIOToggle(EN_OUT_INFO_LED);
-//    }
-
-
-
     //TODO: create broadcast or multicast UDP socket
 
     osDelayTask(500);
 
     //TODO: start 2msCB timer
 
+    struct sockaddr_in server_addr;
+    char server_message[32] = "", client_message[32] = "";
+    int server_struct_length = sizeof(server_addr);
+
+    // Set port and IP:
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(2001);
+    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
+
     while(1)
     {
-        bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, &time);
+        bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, NULL);
 
 
-        if (FD_ISSET (i, &read_fd_set))
+        if (FD_ISSET (g_udpClients[0].socketfd, &fdSet))
         {
             middIOToggle(EN_OUT_INFO_LED);
         }
 
+        // Receive the server's response:
+        if(recvfrom(g_udpClients[0].socketfd, server_message, sizeof(server_message), 0,
+            (struct sockaddr*)&server_addr, &server_struct_length) < 0)
+        {
+            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
+        }
 
 
 
