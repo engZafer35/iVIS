@@ -32,6 +32,7 @@ typedef enum _EN_OUT_LIST
     EN_OUT_JOB_LED,
     EN_OUT_ERR_LED,
     EN_OUT_POWER_LED,
+    EN_OUT_INFO_LED,
 
 }EN_OUT_LIST;
 

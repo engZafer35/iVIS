@@ -116,6 +116,7 @@ RETURN_STATUS middIOWrite(EN_OUT_LIST out, BOOL stat)
         case EN_OUT_JOB_LED:    JOB_STATUS_LED(stat);   break;
         case EN_OUT_ERR_LED:    ERR_STATUS_LED(stat);   break;
         case EN_OUT_POWER_LED:  POWER_STATUS_LED(stat); break;
+        case EN_OUT_INFO_LED:   INFO_STATUS_LED(stat);  break;
 
         default: retVal = FAILURE;
     }

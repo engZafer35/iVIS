@@ -316,12 +316,12 @@ void udpTaskLoop(void const * argument)
             HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
         }
 
-//        // Receive the server's response:
-//        if(recvfrom(socket_desc, server_message, sizeof(server_message), 0,
-//            (struct sockaddr*)&server_addr, &server_struct_length) < 0)
-//        {
-//            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
-//        }
+        // Receive the server's response:
+        if(recvfrom(socket_desc, server_message, sizeof(server_message), 0,
+            (struct sockaddr*)&server_addr, &server_struct_length) < 0)
+        {
+            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
+        }
 
         HAL_GPIO_TogglePin(LED_INFO_GPIO_Port, LED_INFO_Pin);
         osDelayTask(500);

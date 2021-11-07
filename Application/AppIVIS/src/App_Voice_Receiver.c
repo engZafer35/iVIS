@@ -24,6 +24,7 @@
 
 
 #include "MiddDigitalIOControl.h"
+#include "Midd_Memory_Opr.h"
 /****************************** MACRO DEFINITIONS *****************************/
 
 /************* Connection Parameters ************/
@@ -39,10 +40,10 @@
 #define UDP_BASE_PORT_NUM (2000)
 
 /********** Voice Packet Parameters ************/
-#define UDP_VOICE_PACKET_SIZE   (4096)
-#define UDP_VOICE_PACKET_TIME   (100)   //ms
+#define UDP_VOICE_PACKET_SIZE   (160) //byte
+#define UDP_VOICE_PACKET_TIME   (20)   //ms
 
-
+#define CIRCULAR_BUFF_LENG      (10)
 /******************************* TYPE DEFINITIONS *****************************/
 
 struct ClientUdpSocket
@@ -55,20 +56,52 @@ struct ClientUdpSocket
 
 static struct ClientUdpSocket g_udpClients[MAX_CLIENT_NUMBER];
 
+struct ClientVoiceStr
+{
+    Ipv4Addr ip;
+    U8 voice[UDP_VOICE_PACKET_SIZE];
+};
+
+struct ReceivedVoiceStr
+{
+    struct ClientVoiceStr clientVoice[MAX_CLIENT_NUMBER];
+};
+
+struct RcvVoiceCircularBuff
+{
+    struct ReceivedVoiceStr rcvClientVoice[10];
+    U8 cliIndex[MAX_CLIENT_NUMBER];
+
+    U8 index;
+};
+
+struct RcvVoiceCircularBuff g_rcvVoiceBuff;
+
+
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
-/**
- * \brief   this function is called when time of waiting voice packet end.
- */
-static void voiceTimeSlot(void)
+/** this function should be called after fast copy/DMA finished*/
+static void completedFastCpyCb(void)
 {
+    //TODO: inform voice creator by event of semaphore, after that it will start to create one integrated voice
 
 }
 
 
-//TODO: in order to copy received voice data to cycle buffer, dma should be used.
+/** Time has elapsed for all clients to send audio data */
+static void critical2msTimerCb(void)
+{
+    int voiceCreatorBuff; // for test delete it.
+    FAST_MEMCPY(&voiceCreatorBuff, g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.index], sizeof(struct ClientVoiceStr));
 
+    /** not need to use mutex. here will be called by timer interrupt */
+    g_rcvVoiceBuff.index++;
+    if (g_rcvVoiceBuff.index >= CIRCULAR_BUFF_LENG)
+    {
+        g_rcvVoiceBuff.index = 0; //set beginning of buffer
+    }
+}
 
 static RETURN_STATUS createUdpSockets(U32 clientNum)
 {
@@ -121,7 +154,7 @@ static void vrTaskFunc(void const* argument)
     {
         U32 counterOK = 0;
         U32 i;
-        for (i = 0; i < MAX_CLIENT_NUMBER; ++i)
+        for (i = 0; i < 1 /*MAX_CLIENT_NUMBER*/; ++i)
         {
             if (SUCCESS == createUdpSockets(i))
             {
@@ -129,19 +162,45 @@ static void vrTaskFunc(void const* argument)
             }
         }
 
-        //handle error. now, I dont know what should I do.
+        //handle error. now, I don't know what should I do.
     }
+
+
+    my_fd_set fdSet;
+    S32 ret;
+
+    FD_ZERO(&fdSet);
+    FD_SET(g_udpClients[0].socketfd, &fdSet);
+    my_timeval time;
+
+    time.tv_sec = 0;
+    time.tv_usec = 20000;
+
+//    bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, &time);
+//
+//
+//    if (FD_ISSET (i, &read_fd_set))
+//    {
+//        middIOToggle(EN_OUT_INFO_LED);
+//    }
+
+
 
     //TODO: create broadcast or multicast UDP socket
 
     osDelayTask(500);
 
+    //TODO: start 2msCB timer
+
     while(1)
     {
+        bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, &time);
 
 
-        //todo: Give received all speech to voice creator to convert one voice signal.
-        //todo: create a udp message which contains all speech.
+        if (FD_ISSET (i, &read_fd_set))
+        {
+            middIOToggle(EN_OUT_INFO_LED);
+        }
 
 
 
@@ -208,6 +267,12 @@ RETURN_STATUS appVoiceRecInit(void)
             ipv4StringToAddr(APP_IPV4_DEFAULT_GATEWAY, &ipv4Addr);
             ipv4SetDefaultGateway(interface, ipv4Addr);
         }
+    }
+
+    if (SUCCESS == retVal)
+    {
+        //TODO: register critical2msTimerCb() to either hw timer or rtos timer
+        //      this func. should be invoked each 2 minute.
     }
 
     return retVal;

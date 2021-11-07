@@ -89,6 +89,14 @@
 
 #define CHECK_BIT(var,pos) (!!((var) & (1<<(pos))))
 
+#ifndef SET_BIT
+#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
+#endif
+
+#ifndef CLEAR_BIT
+#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
+#endif
+
 typedef void (*TaskFunc_t)(void const* ts);
 typedef void (*VoidCallback)(void);
 typedef void (*VICallback)(int x);

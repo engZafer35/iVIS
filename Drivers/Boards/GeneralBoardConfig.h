@@ -15,7 +15,7 @@
 
 /****************************** MACRO DEFINITIONS ****************************/
 #define BOARD_LINUX_PC          (1)
-#define BOARD_STM_010101        (2)
+#define BOARD_STM_021121        (2)
 #define BOARD_STM_LP_010101     (3)
 #define BOARD_NXP_010102        (4)
 /* add new board*/
@@ -24,11 +24,11 @@
 #ifdef __linux
 #define CURRENT_BOARD   (BOARD_LINUX_PC)
 #else
-#define CURRENT_BOARD   (BOARD_STM_010101)
+#define CURRENT_BOARD   (BOARD_STM_021121)
 #endif
 
 
-#if (CURRENT_BOARD == BOARD_STM_010101)
+#if (CURRENT_BOARD == BOARD_STM_021121)
 #include "BoardConfig_STM_021121.h"
 #elif (CURRENT_BOARD == BOARD_STM_LP_010101)
 #include "BoardConfig_STM_LP_010101.h"

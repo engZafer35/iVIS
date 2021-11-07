@@ -1,52 +1,38 @@
 /******************************************************************************
 * #Author       : zafer.satilmis
 * #Revision     : 1.0
-* #Date         : Nov 3, 2021 - 5:21:25 PM
-* #File Name    : App_Global_Variables.h
+* #Date         : Nov 6, 2021 - 10:47:09 PM
+* #File Name    : Midd_Memory_Opr.h
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __APP_GLOBAL_VARIABLES_H__
-#define __APP_GLOBAL_VARIABLES_H__
+#ifndef __MIDD_MEMORY_OPR_H__
+#define __MIDD_MEMORY_OPR_H__
 /*********************************INCLUDES*************************************/
 #include "Project_Conf.h"
 /******************************MACRO DEFINITIONS*******************************/
+#if (CURRENT_BOARD != BOARD_LINUX_PC)
+#define FAST_MEMCPY(dest, src, leng)
 
+#elif (CURRENT_BOARD == BOARD_LINUX_PC)
+
+extern void callCompletedFastCpy(void);
+#define FAST_MEMCPY(dest, src, leng)    memcp(dest, src, leng), callCompletedCb();
+
+#endif
 /*******************************TYPE DEFINITIONS ******************************/
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/
-extern struct _GlobalVar GlobalVar;
+
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
-/**
- * \brief   initialize global variables
- * \return  if everything is OK, return EN_SUCCES
- *          otherwise return EN_FAILURE
- */
-RETURN_STATUS appGVInit(void);
+//init all dma here;
+RETURN_STATUS middMemInit(void);
 
-/**
- * \brief   get muted client list. Each bit corresponds a client,
- *          1 bit client muted, 0 bit client unmuted
- * \return  Client muted/unmuted value
- */
-U8 appGvGetMuteClient(void);
 
-/**
- * \brief   set a client muted
- * \param   client number, (0-8)
- */
-void appGvSetMuteClient(U8 client);
-
-/**
- * \brief   set a client unmuted
- * \param   client number, (0-8)
- */
-void appGvSetUnmteClient(U8 client);
-
-#endif /* __APP_GLOBAL_VARIABLES_H__ */
+#endif /* __MIDD_MEMORY_OPR_H__ */
 
 /********************************* End Of File ********************************/

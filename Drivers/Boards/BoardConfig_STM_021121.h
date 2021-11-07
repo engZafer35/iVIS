@@ -30,7 +30,7 @@
 #define BOARD_NAME            "iVIS_STM_021121"
 #define BOARD_VERSION         "V1.0"
 #define BOARD_FILE_NAME       "BoardConfig_STM_021121.h"
-#define WORKING_PLATFORM_STM  (111020)
+#define WORKING_PLATFORM_STM  (021121)
 #define _WORKING_PLATFORM     WORKING_PLATFORM_STM
 #define _PLATFORM_NAME        "STM"
 #define _MCU_BIT_SIZE         (32)
