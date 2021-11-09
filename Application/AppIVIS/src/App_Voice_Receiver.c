@@ -11,6 +11,7 @@
 #define SHOW_PAGE_DBG_MSG  (DISABLE)
 /********************************* INCLUDES ***********************************/
 #include "App_Voice_Receiver.h"
+#include "App_Voice_Creator.h"
 
 #include "core/net.h"
 #include "drivers/eth/enc28j60_driver.h"
@@ -44,6 +45,10 @@
 #define UDP_VOICE_PACKET_TIME   (20)   //ms
 
 #define CIRCULAR_BUFF_LENG      (10)
+
+#define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
+
+
 /******************************* TYPE DEFINITIONS *****************************/
 
 struct ClientUdpSocket
@@ -62,20 +67,26 @@ struct ClientVoiceStr
     U8 voice[UDP_VOICE_PACKET_SIZE];
 };
 
-struct ReceivedVoiceStr
+struct VoiceBuff
 {
-    struct ClientVoiceStr clientVoice[MAX_CLIENT_NUMBER];
+    struct ClientVoiceStr voice;
+    U8 isNew;
 };
 
-struct RcvVoiceCircularBuff
+struct ReceivedVoiceStr
 {
-    struct ReceivedVoiceStr rcvClientVoice[10];
+    struct VoiceBuff clientVoice[MAX_CLIENT_NUMBER];
+};
+
+struct VoiceCircularBuff
+{
+    struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
     U8 cliIndex[MAX_CLIENT_NUMBER];
 
     U8 index;
 };
 
-struct RcvVoiceCircularBuff g_rcvVoiceBuff;
+struct VoiceCircularBuff g_rcvVoiceBuff;
 
 
 /********************************** VARIABLES *********************************/
@@ -151,6 +162,10 @@ static void closeUdpSocket(U32 clientNum)
 #include "core/ping.h"
 static void vrTaskFunc(void const* argument)
 {
+    struct ClientVoiceStr recvData;
+    in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
+    U32 z;
+
     {
         U32 counterOK = 0;
         U32 i;
@@ -167,7 +182,6 @@ static void vrTaskFunc(void const* argument)
 
 
     my_fd_set fdSet;
-    S32 ret;
 
     FD_ZERO(&fdSet);
     FD_SET(g_udpClients[0].socketfd, &fdSet);
@@ -182,14 +196,13 @@ static void vrTaskFunc(void const* argument)
 
     //TODO: start 2msCB timer
 
-    struct sockaddr_in server_addr;
-    char server_message[32] = "", client_message[32] = "";
-    int server_struct_length = sizeof(server_addr);
+    struct sockaddr_in clientAddr;
+    int server_struct_length = sizeof(clientAddr);
 
-    // Set port and IP:
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(2001);
-    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
+//    // Set port and IP:
+//    server_addr.sin_family = AF_INET;
+//    server_addr.sin_port = htons(2001);
+//    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
 
     while(1)
     {
@@ -202,10 +215,33 @@ static void vrTaskFunc(void const* argument)
         }
 
         // Receive the server's response:
-        if(recvfrom(g_udpClients[0].socketfd, server_message, sizeof(server_message), 0,
-            (struct sockaddr*)&server_addr, &server_struct_length) < 0)
+        if(recvfrom(g_udpClients[0].socketfd, &recvData, sizeof(recvData), 0,  \
+           (struct sockaddr*)&clientAddr, &server_struct_length) > 0)
         {
-            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
+            for (z = 0; z < MAX_CLIENT_NUMBER; ++z)
+            {
+                if (clientIPAddr[z] == clientAddr.sin_addr.s_addr) //find client number = z
+                {
+                    //copy data to related client buffer
+                    FAST_MEMCPY(&CLIENT_VOICE_BUFF(z), &recvData, sizeof(recvData));
+                    CLIENT_VOICE_BUFF(z).isNew = TRUE;
+
+                    //increase client buffer index
+                    g_rcvVoiceBuff.cliIndex[z]++;
+                    if (g_rcvVoiceBuff.cliIndex[z] >= CIRCULAR_BUFF_LENG)
+                    {
+                        g_rcvVoiceBuff.cliIndex[z] = 0;
+                    }
+
+                    appVoCreatAddedVoice(z); //inform voice creator for added new voice data
+
+                    break;
+                }
+            }
+            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);;
+            //TODO: alinan her ses paketi direk voice creator verilebilir. Dolayısı ile sesleri toplama
+            //      işi zamana yayılmış olarak her paket gelmesinden sonra olur. Öbür türlü topluca
+            //      paketler toplanacak.
         }
 
 
