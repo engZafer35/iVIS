@@ -13,14 +13,15 @@
 #define __MIDD_MEMORY_OPR_H__
 /*********************************INCLUDES*************************************/
 #include "Project_Conf.h"
+#include <string.h>
 /******************************MACRO DEFINITIONS*******************************/
 #if (CURRENT_BOARD != BOARD_LINUX_PC)
-#define FAST_MEMCPY(dest, src, leng)
+#define FAST_MEMCPY(dest, src, leng)    memcpy(dest, src, leng)
 
 #elif (CURRENT_BOARD == BOARD_LINUX_PC)
 
 extern void callCompletedFastCpy(void);
-#define FAST_MEMCPY(dest, src, leng)    memcp(dest, src, leng), callCompletedCb();
+#define FAST_MEMCPY(dest, src, leng)    memcpy(dest, src, leng), callCompletedCb();
 
 #endif
 /*******************************TYPE DEFINITIONS ******************************/

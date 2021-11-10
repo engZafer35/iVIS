@@ -40,9 +40,9 @@ RETURN_STATUS appVoCreatInit(void)
     return SUCCESS;
 }
 
-void appVoCreatStart(void)
+void appVoCreatStart(U32 buffIndex)
 {
-
+    //create a event/queue to start integrated voice
 }
 
 void appVoCreatAddedVoice(U32 clientum)

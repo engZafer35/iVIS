@@ -207,7 +207,11 @@ extern "C" {
 #endif
 
 #ifndef configUSE_TIMERS
-	#define configUSE_TIMERS 0
+/* Software timer definitions. */
+#define configUSE_TIMERS                         1
+#define configTIMER_TASK_PRIORITY                ( 6 )
+#define configTIMER_QUEUE_LENGTH                 10
+#define configTIMER_TASK_STACK_DEPTH             256
 #endif
 
 #ifndef configUSE_COUNTING_SEMAPHORES

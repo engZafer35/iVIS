@@ -48,7 +48,8 @@
 
 #define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
-
+/********** Timer Macro ************/
+#define LAST_PACKET_TIME    (5)//ms
 /******************************* TYPE DEFINITIONS *****************************/
 
 struct ClientUdpSocket
@@ -81,7 +82,7 @@ struct ReceivedVoiceStr
 struct VoiceCircularBuff
 {
     struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
-    U8 cliIndex[MAX_CLIENT_NUMBER];
+    U8 cliIndex[MAX_CLIENT_NUMBER]; // it can be max (CIRCULAR_BUFF_LENG-1)
 
     U8 index;
 };
@@ -90,28 +91,30 @@ struct VoiceCircularBuff g_rcvVoiceBuff;
 
 
 /********************************** VARIABLES *********************************/
-
+osTimerId g_timerIDLastPacket;
+BOOL isTimerActive = FALSE;
 /***************************** STATIC FUNCTIONS  ******************************/
 /** this function should be called after fast copy/DMA finished*/
 static void completedFastCpyCb(void)
 {
     //TODO: inform voice creator by event of semaphore, after that it will start to create one integrated voice
-
 }
 
 
 /** Time has elapsed for all clients to send audio data */
-static void critical2msTimerCb(void)
+static void lastVoicePacketTimerCb(const void *param)
 {
-    int voiceCreatorBuff; // for test delete it.
-    FAST_MEMCPY(&voiceCreatorBuff, g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.index], sizeof(struct ClientVoiceStr));
-
     /** not need to use mutex. here will be called by timer interrupt */
+    isTimerActive = FALSE;
+    appVoCreatStart(g_rcvVoiceBuff.index);
+
     g_rcvVoiceBuff.index++;
     if (g_rcvVoiceBuff.index >= CIRCULAR_BUFF_LENG)
     {
         g_rcvVoiceBuff.index = 0; //set beginning of buffer
     }
+
+    middIOToggle(EN_OUT_POWER_LED);
 }
 
 static RETURN_STATUS createUdpSockets(U32 clientNum)
@@ -162,6 +165,12 @@ static void closeUdpSocket(U32 clientNum)
 #include "core/ping.h"
 static void vrTaskFunc(void const* argument)
 {
+    my_fd_set fdSet;
+    my_timeval time;
+
+    struct sockaddr_in clientAddr;
+    int server_struct_length = sizeof(clientAddr);
+
     struct ClientVoiceStr recvData;
     in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
     U32 z;
@@ -180,34 +189,29 @@ static void vrTaskFunc(void const* argument)
         //handle error. now, I don't know what should I do.
     }
 
-
-    my_fd_set fdSet;
+    clientIPAddr[0] = inet_addr("192.168.0.88");
 
     FD_ZERO(&fdSet);
     FD_SET(g_udpClients[0].socketfd, &fdSet);
-    my_timeval time;
 
-    time.tv_sec = 0;
-    time.tv_usec = 20000;
+//    time.tv_sec = 0;
+//    time.tv_usec = 20000;
 
     //TODO: create broadcast or multicast UDP socket
 
     osDelayTask(500);
 
-    //TODO: start 2msCB timer
 
-    struct sockaddr_in clientAddr;
-    int server_struct_length = sizeof(clientAddr);
 
 //    // Set port and IP:
 //    server_addr.sin_family = AF_INET;
 //    server_addr.sin_port = htons(2001);
 //    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
+    middIOWrite(EN_OUT_POWER_LED, DISABLE);
 
     while(1)
     {
         bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, NULL);
-
 
         if (FD_ISSET (g_udpClients[0].socketfd, &fdSet))
         {
@@ -233,19 +237,17 @@ static void vrTaskFunc(void const* argument)
                         g_rcvVoiceBuff.cliIndex[z] = 0;
                     }
 
-                    appVoCreatAddedVoice(z); //inform voice creator for added new voice data
+                    if (FALSE == isTimerActive)
+                    {
+                        osTimerStart(g_timerIDLastPacket, LAST_PACKET_TIME);
+                        isTimerActive = TRUE;
+                    }
 
                     break;
                 }
             }
             HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);;
-            //TODO: alinan her ses paketi direk voice creator verilebilir. Dolayısı ile sesleri toplama
-            //      işi zamana yayılmış olarak her paket gelmesinden sonra olur. Öbür türlü topluca
-            //      paketler toplanacak.
         }
-
-
-
     }
 }
 
@@ -312,6 +314,9 @@ RETURN_STATUS appVoiceRecInit(void)
 
     if (SUCCESS == retVal)
     {
+        osTimerDef(timerLastPacket, lastVoicePacketTimerCb);
+        g_timerIDLastPacket = osTimerCreate (osTimer(timerLastPacket), osTimerOnce, NULL);
+
         //TODO: register critical2msTimerCb() to either hw timer or rtos timer
         //      this func. should be invoked each 2 minute.
     }
