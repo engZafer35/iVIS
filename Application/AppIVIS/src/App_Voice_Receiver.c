@@ -51,7 +51,6 @@
 /********** Timer Macro ************/
 #define LAST_PACKET_TIME    (5)//ms
 /******************************* TYPE DEFINITIONS *****************************/
-
 struct ClientUdpSocket
 {
     struct sockaddr_in serverAddr;
@@ -89,7 +88,6 @@ struct VoiceCircularBuff
 
 struct VoiceCircularBuff g_rcvVoiceBuff;
 
-
 /********************************** VARIABLES *********************************/
 osTimerId g_timerIDLastPacket;
 BOOL isTimerActive = FALSE;
@@ -99,7 +97,6 @@ static void completedFastCpyCb(void)
 {
     //TODO: inform voice creator by event of semaphore, after that it will start to create one integrated voice
 }
-
 
 /** Time has elapsed for all clients to send audio data */
 static void lastVoicePacketTimerCb(const void *param)
@@ -185,11 +182,8 @@ static void vrTaskFunc(void const* argument)
                 counterOK++; //increase value for each created socket
             }
         }
-
         //handle error. now, I don't know what should I do.
     }
-
-    clientIPAddr[0] = inet_addr("192.168.0.88");
 
     FD_ZERO(&fdSet);
     FD_SET(g_udpClients[0].socketfd, &fdSet);
@@ -199,14 +193,8 @@ static void vrTaskFunc(void const* argument)
 
     //TODO: create broadcast or multicast UDP socket
 
-    osDelayTask(500);
+    osDelayTask(200);
 
-
-
-//    // Set port and IP:
-//    server_addr.sin_family = AF_INET;
-//    server_addr.sin_port = htons(2001);
-//    server_addr.sin_addr.s_addr = inet_addr("192.168.0.88");
     middIOWrite(EN_OUT_POWER_LED, DISABLE);
 
     while(1)
@@ -312,13 +300,13 @@ RETURN_STATUS appVoiceRecInit(void)
         }
     }
 
+
+    clientIPAddr[0] = inet_addr("192.168.0.88"); //TODO: set automatically
+
     if (SUCCESS == retVal)
     {
         osTimerDef(timerLastPacket, lastVoicePacketTimerCb);
         g_timerIDLastPacket = osTimerCreate (osTimer(timerLastPacket), osTimerOnce, NULL);
-
-        //TODO: register critical2msTimerCb() to either hw timer or rtos timer
-        //      this func. should be invoked each 2 minute.
     }
 
     return retVal;
