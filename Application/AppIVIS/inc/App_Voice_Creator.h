@@ -54,7 +54,11 @@ RETURN_STATUS appVoCreatRegisterVoiceReadyCb(VoidCallback cb);
  */
 void appVoCreatUnregisterVoiceReadyCb(VoidCallback cb);
 
-
+/**
+ * \brief   get voice creator task function.
+ * \return  task function pointer
+ */
+TaskFunc_t appVoCreatGetTaskFunc(void);
 
 #endif /* __VOICE_CREATOR_H__ */
 

@@ -13,10 +13,40 @@
 #define __APP_VOICE_RECEIVER_H__
 /*********************************INCLUDES*************************************/
 #include "Project_Conf.h"
+
+#include "core/net.h"
 /******************************MACRO DEFINITIONS*******************************/
 #define MAX_CLIENT_NUMBER   (8)
-/*******************************TYPE DEFINITIONS ******************************/
 
+#define UDP_VOICE_PACKET_SIZE   (160) //byte
+#define UDP_VOICE_PACKET_TIME   (20)   //ms
+
+#define CIRCULAR_BUFF_LENG      (10)
+/*******************************TYPE DEFINITIONS ******************************/
+struct ClientVoiceStr
+{
+    Ipv4Addr ip;
+    U8 voice[UDP_VOICE_PACKET_SIZE];
+};
+
+struct VoiceBuff
+{
+    struct ClientVoiceStr voice;
+    U8 isNew;
+};
+
+struct ReceivedVoiceStr
+{
+    struct VoiceBuff clientVoice[MAX_CLIENT_NUMBER];
+};
+
+struct VoiceCircularBuff
+{
+    struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
+    U8 cliIndex[MAX_CLIENT_NUMBER]; // it can be max (CIRCULAR_BUFF_LENG-1)
+
+    U8 index;
+};
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
@@ -63,7 +93,6 @@ RETURN_STATUS appVoiceRecMuteAllClient(U32 clinetNum, BOOL stat);
 
 /**
  * \brief   get voice receiver task function. this function
- * \param   task argument
  * \return  task function pointer
  */
 TaskFunc_t appVoiceRecGetTaskFunc(void);

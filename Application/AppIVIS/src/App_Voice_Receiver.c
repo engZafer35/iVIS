@@ -16,7 +16,6 @@
 #include "core/net.h"
 #include "drivers/eth/enc28j60_driver.h"
 #include "dhcp/dhcp_client.h"
-#include "http/http_client.h"
 #include "debug.h"
 #include "spi_driver.h"
 #include "ext_int_driver.h"
@@ -41,10 +40,10 @@
 #define UDP_BASE_PORT_NUM (2000)
 
 /********** Voice Packet Parameters ************/
-#define UDP_VOICE_PACKET_SIZE   (160) //byte
-#define UDP_VOICE_PACKET_TIME   (20)   //ms
-
-#define CIRCULAR_BUFF_LENG      (10)
+//#define UDP_VOICE_PACKET_SIZE   (160) //byte
+//#define UDP_VOICE_PACKET_TIME   (20)   //ms
+//
+//#define CIRCULAR_BUFF_LENG      (10)
 
 #define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
@@ -61,36 +60,38 @@ struct ClientUdpSocket
 
 static struct ClientUdpSocket g_udpClients[MAX_CLIENT_NUMBER];
 
-struct ClientVoiceStr
-{
-    Ipv4Addr ip;
-    U8 voice[UDP_VOICE_PACKET_SIZE];
-};
-
-struct VoiceBuff
-{
-    struct ClientVoiceStr voice;
-    U8 isNew;
-};
-
-struct ReceivedVoiceStr
-{
-    struct VoiceBuff clientVoice[MAX_CLIENT_NUMBER];
-};
-
-struct VoiceCircularBuff
-{
-    struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
-    U8 cliIndex[MAX_CLIENT_NUMBER]; // it can be max (CIRCULAR_BUFF_LENG-1)
-
-    U8 index;
-};
+//struct ClientVoiceStr
+//{
+//    Ipv4Addr ip;
+//    U8 voice[UDP_VOICE_PACKET_SIZE];
+//};
+//
+//struct VoiceBuff
+//{
+//    struct ClientVoiceStr voice;
+//    U8 isNew;
+//};
+//
+//struct ReceivedVoiceStr
+//{
+//    struct VoiceBuff clientVoice[MAX_CLIENT_NUMBER];
+//};
+//
+//struct VoiceCircularBuff
+//{
+//    struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
+//    U8 cliIndex[MAX_CLIENT_NUMBER]; // it can be max (CIRCULAR_BUFF_LENG-1)
+//
+//    U8 index;
+//};
 
 struct VoiceCircularBuff g_rcvVoiceBuff;
 
 /********************************** VARIABLES *********************************/
 osTimerId g_timerIDLastPacket;
 BOOL isTimerActive = FALSE;
+
+in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
 /***************************** STATIC FUNCTIONS  ******************************/
 /** this function should be called after fast copy/DMA finished*/
 static void completedFastCpyCb(void)
@@ -159,7 +160,6 @@ static void closeUdpSocket(U32 clientNum)
     g_udpClients[clientNum].isActive   = FALSE;
 }
 
-#include "core/ping.h"
 static void vrTaskFunc(void const* argument)
 {
     my_fd_set fdSet;
@@ -169,7 +169,6 @@ static void vrTaskFunc(void const* argument)
     int server_struct_length = sizeof(clientAddr);
 
     struct ClientVoiceStr recvData;
-    in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
     U32 z;
 
     {
@@ -234,7 +233,6 @@ static void vrTaskFunc(void const* argument)
                     break;
                 }
             }
-            HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);;
         }
     }
 }
@@ -299,7 +297,6 @@ RETURN_STATUS appVoiceRecInit(void)
             ipv4SetDefaultGateway(interface, ipv4Addr);
         }
     }
-
 
     clientIPAddr[0] = inet_addr("192.168.0.88"); //TODO: set automatically
 
