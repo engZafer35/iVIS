@@ -12,6 +12,7 @@
 /********************************* INCLUDES ***********************************/
 #include "App_Job_Manager.h"
 #include "App_Voice_Receiver.h"
+#include "App_Voice_Creator.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -41,8 +42,8 @@ static void jobTaskFunc(void const* argument)
 
     while(1)
     {
-        osDelay(200);
-        middIOToggle(EN_OUT_JOB_LED);
+        osDelay(2000);
+        middIOToggle(EN_OUT_ERR_LED);
     }
 }
 /***************************** PUBLIC FUNCTIONS  ******************************/
@@ -51,6 +52,10 @@ RETURN_STATUS appJobInit(void)
     RETURN_STATUS retVal = SUCCESS;
 
     g_jobList[EN_JOB_VOICE_RECEIVER].taskFunc = appVoiceRecGetTaskFunc();
+    /*g_jobList[EN_JOB_VOICE_RECEIVER].jobStat = EN_NOT_CREATED;*/      /* < not needed, still zero */
+    /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = 0; */                 /* < not needed, still zero */
+
+    g_jobList[EN_JOB_VOICE_CREATOR].taskFunc = appVoCreatGetTaskFunc();
     /*g_jobList[EN_JOB_VOICE_RECEIVER].jobStat = EN_NOT_CREATED;*/      /* < not needed, still zero */
     /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = 0; */                 /* < not needed, still zero */
 
