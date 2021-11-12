@@ -14,6 +14,7 @@
 #include "App_Job_Manager.h"
 #include "App_Voice_Receiver.h"
 #include "App_Global_Variables.h"
+#include "App_Record_Manager.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -80,6 +81,7 @@ static RETURN_STATUS initSwUnits(void)
         retVal |= appGVInit();
         retVal |= appVoiceRecInit();
         retVal |= appVoCreatInit();
+        retVal |= appRecInit();
 
         retVal |= appJobInit();
     }
@@ -120,10 +122,9 @@ RETURN_STATUS appIvisStart(void)
 
     retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
     retVal |= appJobCreatJob(EN_JOB_VOICE_CREATOR);
-
+    retVal |= appJobCreatJob(EN_JOB_RECORD_MANAGER);
 
     //TODO: create other jobs
-
 
     osKernelStart();
 
