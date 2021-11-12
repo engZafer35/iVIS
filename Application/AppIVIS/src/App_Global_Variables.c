@@ -16,6 +16,8 @@
 /******************************* TYPE DEFINITIONS *****************************/
 struct _GlobalVar
 {
+
+
     union
     {
         U8 muteClient;
@@ -32,6 +34,8 @@ struct _GlobalVar
         };
     }muteClientList;
 }g_globalVar;
+
+EventGroupHandle_t g_eventID;
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
@@ -40,6 +44,8 @@ struct _GlobalVar
 RETURN_STATUS appGVInit(void)
 {
     RETURN_STATUS retVal = SUCCESS;
+
+    g_eventID = xEventGroupCreate();
 
     return retVal;
 }

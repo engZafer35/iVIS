@@ -28,13 +28,6 @@
 RETURN_STATUS appVoCreatInit(void);
 
 /**
- * \brief   when all client voice data is ready, this function
- *          can be invoked to create a voice that contains sum of all speech
- * \param   ready buffer index
- */
-void appVoCreatStart(U32 buffIndex);
-
-/**
  * \brief   When a client voice added buffer, this function
  *          can be invoked to sum with other already summed voice data.
  *          So, not need to wait for all client data to be ready.

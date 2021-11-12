@@ -1,60 +1,38 @@
 /******************************************************************************
 * #Author       : zafer.satilmis
 * #Revision     : 1.0
-* #Date         : Nov 3, 2021 - 5:21:25 PM
-* #File Name    : App_Global_Variables.h
+* #Date         : Nov 12, 2021 - 12:14:46 AM
+* #File Name    : App_Record_Manager.h
 *******************************************************************************/
 
 /******************************************************************************
 * 
 ******************************************************************************/
 /******************************IFNDEF & DEFINE********************************/
-#ifndef __APP_GLOBAL_VARIABLES_H__
-#define __APP_GLOBAL_VARIABLES_H__
+#ifndef INC_APP_RECORD_MANAGER_H_
+#define INC_APP_RECORD_MANAGER_H_
 /*********************************INCLUDES*************************************/
 #include "Project_Conf.h"
 /******************************MACRO DEFINITIONS*******************************/
 
 /*******************************TYPE DEFINITIONS ******************************/
-typedef enum _GLOBAL_EVENT_LIST
-{
-    EN_EVENT_INTEGTATED_VOICE_READY = 0X01,
-    EN_EVENT_VOICES_RECEIVED = 0X02,
 
-}GLOBAL_EVENT_LIST;
 /************************* GLOBAL VARIBALE REFERENCES *************************/
-extern struct _GlobalVar GlobalVar;
 
-extern EventGroupHandle_t g_eventID;
-#define GLOBAL_EVENT_LIST_ID    (g_eventID)
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
-
 /**
- * \brief   initialize global variables
+ * \brief   init voice recorder
  * \return  if everything is OK, return EN_SUCCES
  *          otherwise return EN_FAILURE
  */
-RETURN_STATUS appGVInit(void);
+RETURN_STATUS appRecInit(void);
 
 /**
- * \brief   get muted client list. Each bit corresponds a client,
- *          1 bit client muted, 0 bit client unmuted
- * \return  Client muted/unmuted value
+ * \brief   get record manager task function.
+ * \return  task function pointer
  */
-U8 appGvGetMuteClient(void);
+TaskFunc_t appRecGetTaskFunc(void);
 
-/**
- * \brief   set a client muted
- * \param   client number, (0-8)
- */
-void appGvSetMuteClient(U8 client);
-
-/**
- * \brief   set a client unmuted
- * \param   client number, (0-8)
- */
-void appGvSetUnmteClient(U8 client);
-
-#endif /* __APP_GLOBAL_VARIABLES_H__ */
+#endif /* INC_APP_RECORD_MANAGER_H_ */
 
 /********************************* End Of File ********************************/

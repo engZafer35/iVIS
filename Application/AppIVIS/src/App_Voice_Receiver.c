@@ -12,6 +12,7 @@
 /********************************* INCLUDES ***********************************/
 #include "App_Voice_Receiver.h"
 #include "App_Voice_Creator.h"
+#include "App_Global_Variables.h"
 
 #include "core/net.h"
 #include "drivers/eth/enc28j60_driver.h"
@@ -48,7 +49,7 @@
 #define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
 /********** Timer Macro ************/
-#define LAST_PACKET_TIME    (5)//ms
+#define LAST_PACKET_TIME    (10)//ms
 /******************************* TYPE DEFINITIONS *****************************/
 struct ClientUdpSocket
 {
@@ -104,15 +105,13 @@ static void lastVoicePacketTimerCb(const void *param)
 {
     /** not need to use mutex. here will be called by timer interrupt */
     isTimerActive = FALSE;
-    appVoCreatStart(g_rcvVoiceBuff.index);
+    xEventGroupSetBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED);
 
     g_rcvVoiceBuff.index++;
     if (g_rcvVoiceBuff.index >= CIRCULAR_BUFF_LENG)
     {
         g_rcvVoiceBuff.index = 0; //set beginning of buffer
     }
-
-    middIOToggle(EN_OUT_POWER_LED);
 }
 
 static RETURN_STATUS createUdpSockets(U32 clientNum)
@@ -214,7 +213,7 @@ static void vrTaskFunc(void const* argument)
                 if (clientIPAddr[z] == clientAddr.sin_addr.s_addr) //find client number = z
                 {
                     //copy data to related client buffer
-                    FAST_MEMCPY(&CLIENT_VOICE_BUFF(z), &recvData, sizeof(recvData));
+                    //FAST_MEMCPY(&CLIENT_VOICE_BUFF(z), &recvData, sizeof(recvData));
                     CLIENT_VOICE_BUFF(z).isNew = TRUE;
 
                     //increase client buffer index
@@ -229,7 +228,6 @@ static void vrTaskFunc(void const* argument)
                         osTimerStart(g_timerIDLastPacket, LAST_PACKET_TIME);
                         isTimerActive = TRUE;
                     }
-
                     break;
                 }
             }

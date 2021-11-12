@@ -12,6 +12,7 @@
 /********************************* INCLUDES ***********************************/
 #include "App_Voice_Creator.h"
 #include "App_Voice_Receiver.h"
+#include "App_Global_Variables.h"
 
 #include "MiddDigitalIOControl.h"
 #include "Midd_Memory_Opr.h"
@@ -56,21 +57,22 @@ static void vcTaskFunc(void const* argument)
 {
     int z;
     int cli;
-    osEvent event;
+//    EventBits_t event;
 
     while(1)
     {
-        event = osMessageGet(vcQueID, osWaitForever);
-        if (osEventMessage == event.status)
+        xEventGroupWaitBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED, pdTRUE, pdTRUE, portMAX_DELAY);
+
+//        if (event & EN_EVENT_VOICES_RECEIVED)
         {
-            if (g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].isNew)
-            {
-                FAST_MEMCPY(voice, g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].voice.voice, sizeof(voice));
-            }
-            else
-            {
-                FAST_MEMCPY(voice, emptyBuff, sizeof(voice));
-            }
+//            if (g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].isNew)
+//            {
+//                FAST_MEMCPY(voice, g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].voice.voice, sizeof(voice));
+//            }
+//            else
+//            {
+//                FAST_MEMCPY(voice, emptyBuff, sizeof(voice));
+//            }
 
             for (cli = 1; cli < MAX_CLIENT_NUMBER; ++cli)
             {
@@ -82,6 +84,7 @@ static void vcTaskFunc(void const* argument)
                     }
                 }
             }
+            xEventGroupSetBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_READY);
             middIOToggle(EN_OUT_JOB_LED);
         }
     }
@@ -94,13 +97,6 @@ RETURN_STATUS appVoCreatInit(void)
     vcQueID = osMessageCreate(osMessageQ(vcQueue), NULL);
 
     return SUCCESS;
-}
-
-void appVoCreatStart(U32 buffIndex)
-{
-    g_currIndex = buffIndex;
-    //create a event/queue to start integrated voice
-    osMessagePut(vcQueID, buffIndex, 0);
 }
 
 void appVoCreatAddedVoice(U32 clientum)

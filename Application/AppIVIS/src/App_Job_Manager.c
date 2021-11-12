@@ -30,7 +30,7 @@ struct JobTask
 {
     TaskFunc_t taskFunc;
     osThreadId taskId;
-    U8 taskStat; // JOB_STATUS
+    JOB_STATUS taskStat; // JOB_STATUS
 };
 
 static struct JobTask g_jobList[EN_JOB_MAX_NUMBER];
@@ -52,12 +52,17 @@ RETURN_STATUS appJobInit(void)
     RETURN_STATUS retVal = SUCCESS;
 
     g_jobList[EN_JOB_VOICE_RECEIVER].taskFunc = appVoiceRecGetTaskFunc();
-    /*g_jobList[EN_JOB_VOICE_RECEIVER].jobStat = EN_NOT_CREATED;*/      /* < not needed, still zero */
-    /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = 0; */                 /* < not needed, still zero */
+    /*g_jobList[EN_JOB_VOICE_RECEIVER].taskId = 0;*/                        /* < not needed, still zero */
+    /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = EN_NOT_CREATED; */        /* < not needed, still zero */
 
     g_jobList[EN_JOB_VOICE_CREATOR].taskFunc = appVoCreatGetTaskFunc();
-    /*g_jobList[EN_JOB_VOICE_RECEIVER].jobStat = EN_NOT_CREATED;*/      /* < not needed, still zero */
-    /*g_jobList[EN_JOB_VOICE_RECEIVER].taskStat = 0; */                 /* < not needed, still zero */
+    /*g_jobList[EN_JOB_VOICE_CREATOR].jobStat  = 0;*/                       /* < not needed, still zero */
+    /*g_jobList[EN_JOB_VOICE_CREATOR].taskStat = EN_NOT_CREATED; */         /* < not needed, still zero */
+
+    g_jobList[EN_JOB_RECORD_MANAGER].taskFunc = appRecGetTaskFunc();
+    /*g_jobList[EN_JOB_RECORD_MANAGER].jobStat = 0;*/                       /* < not needed, still zero */
+    /*g_jobList[EN_JOB_RECORD_MANAGER].taskStat = EN_NOT_CREATED; */        /* < not needed, still zero */
+
 
 
     //TODO: Create queue
