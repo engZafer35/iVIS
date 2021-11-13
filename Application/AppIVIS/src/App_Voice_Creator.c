@@ -17,12 +17,13 @@
 #include "MiddDigitalIOControl.h"
 #include "Midd_Memory_Opr.h"
 /****************************** MACRO DEFINITIONS *****************************/
+#define CLIENT_VOICE_BUFF(indx, cli)            (g_rcvVoiceBuff.rcvClientVoice[indx].clientVoice[cli].voice.voice)
+#define IS_NEW_CLIENT_VOICE_DATA(indx, cli)     (g_rcvVoiceBuff.rcvClientVoice[indx].clientVoice[cli].isNew)
 
 /******************************* TYPE DEFINITIONS *****************************/
 
 /********************************** VARIABLES *********************************/
 VoidCallback cbList[MAX_INFORM_UNIT_NUMBER];
-
 
 extern struct VoiceCircularBuff g_rcvVoiceBuff;
 
@@ -31,12 +32,6 @@ const U8 emptyBuff[UDP_VOICE_PACKET_SIZE];
 
 U32 g_currIndex;
 
-struct QueueStr
-{
-    void *buff;
-};
-
-static osMessageQId vcQueID;
 /***************************** STATIC FUNCTIONS  ******************************/
 
 /**< after end of sum of speeches, call callback functions */
@@ -65,9 +60,13 @@ static void vcTaskFunc(void const* argument)
 
 //        if (event & EN_EVENT_VOICES_RECEIVED)
         {
-//            if (g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].isNew)
+            /**
+             * check if  first client(index=0) has new voice data,
+             * We can use fast memcpy instead of for loop for first client
+             */
+//            if (IS_NEW_CLIENT_VOICE_DATA(g_currIndex, 0))
 //            {
-//                FAST_MEMCPY(voice, g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[0].voice.voice, sizeof(voice));
+//                FAST_MEMCPY(voice, CLIENT_VOICE_BUFF(g_currIndex, 0), sizeof(voice));
 //            }
 //            else
 //            {
@@ -76,11 +75,11 @@ static void vcTaskFunc(void const* argument)
 
             for (cli = 1; cli < MAX_CLIENT_NUMBER; ++cli)
             {
-                if (g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[cli].isNew) //check is there new voice data
+                if (IS_NEW_CLIENT_VOICE_DATA(g_currIndex, cli)) //check is there new voice data
                 {
                     for (z = 0; z < UDP_VOICE_PACKET_SIZE; ++z)
                     {
-                        voice[z] += g_rcvVoiceBuff.rcvClientVoice[g_currIndex].clientVoice[cli].voice.voice[z];
+                        voice[z] += CLIENT_VOICE_BUFF(g_currIndex, cli)[z];
                     }
                 }
             }
@@ -93,8 +92,6 @@ static void vcTaskFunc(void const* argument)
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appVoCreatInit(void)
 {
-    osMessageQDef(vcQueue, 4, struct QueueStr);
-    vcQueID = osMessageCreate(osMessageQ(vcQueue), NULL);
 
     return SUCCESS;
 }

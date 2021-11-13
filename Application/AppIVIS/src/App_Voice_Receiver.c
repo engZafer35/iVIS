@@ -41,11 +41,6 @@
 #define UDP_BASE_PORT_NUM (2000)
 
 /********** Voice Packet Parameters ************/
-//#define UDP_VOICE_PACKET_SIZE   (160) //byte
-//#define UDP_VOICE_PACKET_TIME   (20)   //ms
-//
-//#define CIRCULAR_BUFF_LENG      (10)
-
 #define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
 /********** Timer Macro ************/
