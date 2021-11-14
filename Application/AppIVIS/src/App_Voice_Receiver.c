@@ -44,7 +44,7 @@
 #define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
 /********** Timer Macro ************/
-#define LAST_PACKET_TIME    (10)//ms
+#define LAST_PACKET_TIME    (5)//ms
 /******************************* TYPE DEFINITIONS *****************************/
 struct ClientUdpSocket
 {
