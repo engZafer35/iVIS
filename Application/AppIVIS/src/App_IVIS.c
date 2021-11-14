@@ -13,6 +13,7 @@
 #include "App_IVIS.h"
 #include "App_Job_Manager.h"
 #include "App_Voice_Receiver.h"
+#include "App_Voice_Creator.h"
 #include "App_Global_Variables.h"
 #include "App_Record_Manager.h"
 
