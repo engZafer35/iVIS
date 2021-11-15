@@ -286,7 +286,8 @@ void netBufferFree(NetBuffer *buffer)
    //Release multi-part buffer
    memPoolFree(buffer);
 //   {volatile uint32_t n = 500 * 4; while(n > 0) n--;}
-   HAL_Delay(1); //zafer
+//   HAL_Delay(1); //zafer
+   usleep(500);
 }
 
 
