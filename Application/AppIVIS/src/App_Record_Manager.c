@@ -23,13 +23,13 @@
 /***************************** STATIC FUNCTIONS  ******************************/
 static void recTaskFunc(void const* argument)
 {
-//    EventBits_t event;
+    EventBits_t event;
 
     while(1)
     {
-        xEventGroupWaitBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_READY, pdTRUE, pdTRUE, portMAX_DELAY);
+        event = xEventGroupWaitBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_READY, pdTRUE, pdTRUE, portMAX_DELAY);
 
-//        if (event & EN_EVENT_INTEGTATED_VOICE_READY) //check if is correct event
+        if (event & EN_EVENT_INTEGTATED_VOICE_READY) //check if is correct event
         {
             //todo: record new voice data
         }
