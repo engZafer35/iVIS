@@ -58,21 +58,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/FreeRTOS/Source/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/FreeRTOS/Source/CMSIS_RTOS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/FreeRTOS/Source/portable/GCC/ARM_CM4F}&quot;"/>
-									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include"/>
-									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
-									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="../Core/Inc"/>
-									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
-									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32F4xx/Include"/>
-									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
-									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS"/>
-									<listOptionValue builtIn="false" value="../FATFS/Target"/>
-									<listOptionValue builtIn="false" value="../FATFS/App"/>
-									<listOptionValue builtIn="false" value="../USB_HOST/App"/>
-									<listOptionValue builtIn="false" value="../USB_HOST/Target"/>
-									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FatFs/src"/>
-									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Core/Inc"/>
-									<listOptionValue builtIn="false" value="../Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/FATFS/App}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/FATFS/Target}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/USB_HOST/App}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/USB_HOST/Target}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/STM32_USB_Host_Library/Class/MSC/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/ST/STM32_USB_Host_Library/Core/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Middleware/FatFs/src}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1118444452" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -99,15 +91,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 						<entry excluding="Startup|src/freertos.c|src/main2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AppIVIS"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AppIVIS/Startup"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USB_HOST"/>
-						<entry excluding="CycloneTcp/cyclone_tcp/drivers/eth/enc624j600_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/ksz8851_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/dm9000_driver.c|CycloneTcp/cyclone_tcp/drivers/wifi|CycloneTcp/cyclone_tcp/drivers/usb_rndis|CycloneTcp/cyclone_tcp/drivers/switch|CycloneTcp/cyclone_tcp/drivers/phy|CycloneTcp/cyclone_tcp/drivers/pcap|CycloneTcp/cyclone_tcp/drivers/mac|CycloneTcp/cyclone_tcp/drivers/loopback|CycloneTcp/cyclone_tcp/http|CycloneTcp/common/exlude|CycloneTcp/cyclone_tcp/tftp|CycloneTcp/cyclone_tcp/sntp|CycloneTcp/cyclone_tcp/snmp|CycloneTcp/cyclone_tcp/smtp|CycloneTcp/cyclone_tcp/netbios|CycloneTcp/cyclone_tcp/mqtt_sn|CycloneTcp/cyclone_tcp/mqtt|CycloneTcp/cyclone_tcp/modbus|CycloneTcp/cyclone_tcp/mibs|CycloneTcp/cyclone_tcp/ipv6|CycloneTcp/cyclone_tcp/igmp|CycloneTcp/cyclone_tcp/icecast|CycloneTcp/cyclone_tcp/ftp|CycloneTcp/cyclone_tcp/dhcpv6|CycloneTcp/cyclone_tcp/coap|CycloneTcp/cyclone_tcp/web_socket" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middleware"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="FATFS"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="CycloneTcp/cyclone_tcp/drivers/eth/enc624j600_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/ksz8851_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/dm9000_driver.c|CycloneTcp/cyclone_tcp/drivers/wifi|CycloneTcp/cyclone_tcp/drivers/usb_rndis|CycloneTcp/cyclone_tcp/drivers/switch|CycloneTcp/cyclone_tcp/drivers/phy|CycloneTcp/cyclone_tcp/drivers/pcap|CycloneTcp/cyclone_tcp/drivers/mac|CycloneTcp/cyclone_tcp/drivers/loopback|CycloneTcp/cyclone_tcp/http|CycloneTcp/common/exlude|CycloneTcp/cyclone_tcp/tftp|CycloneTcp/cyclone_tcp/sntp|CycloneTcp/cyclone_tcp/snmp|CycloneTcp/cyclone_tcp/smtp|CycloneTcp/cyclone_tcp/netbios|CycloneTcp/cyclone_tcp/mqtt_sn|CycloneTcp/cyclone_tcp/mqtt|CycloneTcp/cyclone_tcp/modbus|CycloneTcp/cyclone_tcp/mibs|CycloneTcp/cyclone_tcp/ipv6|CycloneTcp/cyclone_tcp/igmp|CycloneTcp/cyclone_tcp/icecast|CycloneTcp/cyclone_tcp/ftp|CycloneTcp/cyclone_tcp/dhcpv6|CycloneTcp/cyclone_tcp/coap|CycloneTcp/cyclone_tcp/web_socket" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middleware"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -204,15 +192,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 						<entry excluding="Startup|src/freertos.c|src/main2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AppIVIS"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="AppIVIS/Startup"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USB_HOST"/>
-						<entry excluding="CycloneTcp/cyclone_tcp/drivers/eth/enc624j600_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/ksz8851_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/dm9000_driver.c|CycloneTcp/cyclone_tcp/drivers/wifi|CycloneTcp/cyclone_tcp/drivers/usb_rndis|CycloneTcp/cyclone_tcp/drivers/switch|CycloneTcp/cyclone_tcp/drivers/phy|CycloneTcp/cyclone_tcp/drivers/pcap|CycloneTcp/cyclone_tcp/drivers/mac|CycloneTcp/cyclone_tcp/drivers/loopback|CycloneTcp/cyclone_tcp/http|CycloneTcp/common/exlude|CycloneTcp/cyclone_tcp/tftp|CycloneTcp/cyclone_tcp/sntp|CycloneTcp/cyclone_tcp/snmp|CycloneTcp/cyclone_tcp/smtp|CycloneTcp/cyclone_tcp/netbios|CycloneTcp/cyclone_tcp/mqtt_sn|CycloneTcp/cyclone_tcp/mqtt|CycloneTcp/cyclone_tcp/modbus|CycloneTcp/cyclone_tcp/mibs|CycloneTcp/cyclone_tcp/ipv6|CycloneTcp/cyclone_tcp/igmp|CycloneTcp/cyclone_tcp/icecast|CycloneTcp/cyclone_tcp/ftp|CycloneTcp/cyclone_tcp/dhcpv6|CycloneTcp/cyclone_tcp/coap|CycloneTcp/cyclone_tcp/web_socket" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middleware"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="FATFS"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="CycloneTcp/cyclone_tcp/drivers/eth/enc624j600_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/ksz8851_driver.c|CycloneTcp/cyclone_tcp/drivers/eth/dm9000_driver.c|CycloneTcp/cyclone_tcp/drivers/wifi|CycloneTcp/cyclone_tcp/drivers/usb_rndis|CycloneTcp/cyclone_tcp/drivers/switch|CycloneTcp/cyclone_tcp/drivers/phy|CycloneTcp/cyclone_tcp/drivers/pcap|CycloneTcp/cyclone_tcp/drivers/mac|CycloneTcp/cyclone_tcp/drivers/loopback|CycloneTcp/cyclone_tcp/http|CycloneTcp/common/exlude|CycloneTcp/cyclone_tcp/tftp|CycloneTcp/cyclone_tcp/sntp|CycloneTcp/cyclone_tcp/snmp|CycloneTcp/cyclone_tcp/smtp|CycloneTcp/cyclone_tcp/netbios|CycloneTcp/cyclone_tcp/mqtt_sn|CycloneTcp/cyclone_tcp/mqtt|CycloneTcp/cyclone_tcp/modbus|CycloneTcp/cyclone_tcp/mibs|CycloneTcp/cyclone_tcp/ipv6|CycloneTcp/cyclone_tcp/igmp|CycloneTcp/cyclone_tcp/icecast|CycloneTcp/cyclone_tcp/ftp|CycloneTcp/cyclone_tcp/dhcpv6|CycloneTcp/cyclone_tcp/coap|CycloneTcp/cyclone_tcp/web_socket" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middleware"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

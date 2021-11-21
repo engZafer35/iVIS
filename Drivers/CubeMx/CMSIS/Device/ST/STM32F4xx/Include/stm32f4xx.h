@@ -8,8 +8,8 @@
   *          is using in the C source code, usually in main.c. This file contains:
   *           - Configuration section that allows to select:
   *              - The STM32F4xx device used in the target application
-  *              - To use or not the peripheral’s drivers in application code(i.e. 
-  *                code will be based on direct access to peripheral’s registers 
+  *              - To use or not the peripheralï¿½s drivers in application code(i.e. 
+  *                code will be based on direct access to peripheralï¿½s registers 
   *                rather than drivers API), this option is controlled by 
   *                "#define USE_HAL_DRIVER"
   *  
@@ -175,6 +175,8 @@
  #error "Please select first the target STM32F4xx device used in your application (in stm32f4xx.h file)"
 #endif
 
+#include "Global_Definitions.h"
+
 /**
   * @}
   */
@@ -190,14 +192,14 @@ typedef enum
 
 typedef enum 
 {
-  DISABLE = 0U, 
-  ENABLE = !DISABLE
+  EN_DISABLE = 0U,
+  EN_ENABLE = !DISABLE
 } FunctionalState;
-#define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
+#define IS_FUNCTIONAL_STATE(STATE) (((STATE) == EN_DISABLE) || ((STATE) == EN_ENABLE))
 
 typedef enum
 {
-  SUCCESS = 0U,
+  EN_SUCCESS = 0U,
   ERROR = !SUCCESS
 } ErrorStatus;
 
