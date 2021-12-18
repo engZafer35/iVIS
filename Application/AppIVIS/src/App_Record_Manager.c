@@ -19,6 +19,7 @@
 /******************************* TYPE DEFINITIONS *****************************/
 
 /********************************** VARIABLES *********************************/
+char USBDISKPath[4];         /* USB Host logical drive path */
 
 /***************************** STATIC FUNCTIONS  ******************************/
 static void recTaskFunc(void const* argument)
@@ -37,9 +38,13 @@ static void recTaskFunc(void const* argument)
     }
 }
 /***************************** PUBLIC FUNCTIONS  ******************************/
-
 RETURN_STATUS appRecInit(void)
 {
+    MX_FATFS_Init();
+    MX_USB_HOST_Init();
+
+    USBDISKFatFs
+
     return SUCCESS;
 }
 

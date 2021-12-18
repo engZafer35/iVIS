@@ -19,7 +19,7 @@
 typedef enum _GLOBAL_EVENT_LIST
 {
     EN_EVENT_INTEGTATED_VOICE_READY = 0X01,
-    EN_EVENT_VOICES_RECEIVED = 0X02,
+    EN_EVENT_VOICES_RECEIVED        = 0X02,
 
 }GLOBAL_EVENT_LIST;
 /************************* GLOBAL VARIBALE REFERENCES *************************/

@@ -61,7 +61,7 @@ static void vcTaskFunc(void const* argument)
 //        if (event & EN_EVENT_VOICES_RECEIVED)
         {
             /**
-             * check if  first client(index=0) has new voice data,
+             * check if first client(index=0) has new voice data,
              * We can use fast memcpy instead of for loop for first client
              */
 //            if (IS_NEW_CLIENT_VOICE_DATA(g_currIndex, 0))

@@ -26,6 +26,8 @@
 #include "dma.h"
 #include "spi.h"
 
+#include "fatfs.h"
+#include "usb_host.h"
 
 #define BOARD_NAME            "iVIS_STM_021121"
 #define BOARD_VERSION         "V1.0"
