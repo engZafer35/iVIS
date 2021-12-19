@@ -43,7 +43,7 @@ RETURN_STATUS appRecInit(void)
     MX_FATFS_Init();
     MX_USB_HOST_Init();
 
-    USBDISKFatFs
+    //todo: mount file system.
 
     return SUCCESS;
 }
