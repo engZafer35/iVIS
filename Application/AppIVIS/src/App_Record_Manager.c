@@ -28,9 +28,9 @@ static void recTaskFunc(void const* argument)
 
     while(1)
     {
-        event = xEventGroupWaitBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_READY, pdTRUE, pdTRUE, portMAX_DELAY);
+        event = xEventGroupWaitBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_RECORD, pdTRUE, pdTRUE, portMAX_DELAY);
 
-        if (event & EN_EVENT_INTEGTATED_VOICE_READY) //check if is correct event
+        if (event & EN_EVENT_INTEGTATED_VOICE_RECORD) //check if is correct event
         {
             //todo: record new voice data
         }

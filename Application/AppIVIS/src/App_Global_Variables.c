@@ -35,7 +35,7 @@ struct _GlobalVar
     }muteClientList;
 }g_globalVar;
 
-EventGroupHandle_t g_eventID;
+EventGroupHandle_t g_voiceEventID;
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
@@ -45,7 +45,7 @@ RETURN_STATUS appGVInit(void)
 {
     RETURN_STATUS retVal = SUCCESS;
 
-    g_eventID = xEventGroupCreate();
+    g_voiceEventID = xEventGroupCreate();
 
     return retVal;
 }

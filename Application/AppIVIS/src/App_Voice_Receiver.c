@@ -87,7 +87,7 @@ struct VoiceCircularBuff g_rcvVoiceBuff;
 osTimerId g_timerIDLastPacket;
 BOOL isTimerActive = FALSE;
 
-in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
+static in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
 /***************************** STATIC FUNCTIONS  ******************************/
 /** this function should be called after fast copy/DMA finished*/
 static void completedFastCpyCb(void)
@@ -100,7 +100,7 @@ static void lastVoicePacketTimerCb(const void *param)
 {
     /** not need to use mutex. here will be called by timer interrupt */
     isTimerActive = FALSE;
-    xEventGroupSetBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED);
+    xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED);
 
     g_rcvVoiceBuff.index++;
     if (g_rcvVoiceBuff.index >= CIRCULAR_BUFF_LENG)
@@ -175,7 +175,7 @@ static void vrTaskFunc(void const* argument)
                 counterOK++; //increase value for each created socket
             }
         }
-        //handle error. now, I don't know what should I do.
+        //handle error. now, I don't know what I do.
     }
 
     FD_ZERO(&fdSet);

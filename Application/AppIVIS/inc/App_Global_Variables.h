@@ -18,15 +18,16 @@
 /*******************************TYPE DEFINITIONS ******************************/
 typedef enum _GLOBAL_EVENT_LIST
 {
-    EN_EVENT_INTEGTATED_VOICE_READY = 0X01,
-    EN_EVENT_VOICES_RECEIVED        = 0X02,
+    EN_EVENT_VOICES_RECEIVED            = 0X01,
+    EN_EVENT_INTEGTATED_VOICE_SEND      = 0X02,
+    EN_EVENT_INTEGTATED_VOICE_RECORD    = 0X04,
 
 }GLOBAL_EVENT_LIST;
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 extern struct _GlobalVar GlobalVar;
 
-extern EventGroupHandle_t g_eventID;
-#define GLOBAL_EVENT_LIST_ID    (g_eventID)
+extern EventGroupHandle_t g_voiceEventID;
+#define GLOBAL_VOICE_EVENT_LIST_ID    (g_voiceEventID)
 /************************* GLOBAL FUNCTION DEFINITIONS ************************/
 
 /**

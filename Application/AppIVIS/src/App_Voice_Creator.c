@@ -56,7 +56,7 @@ static void vcTaskFunc(void const* argument)
 
     while(1)
     {
-        xEventGroupWaitBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED, pdTRUE, pdTRUE, portMAX_DELAY);
+        xEventGroupWaitBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED, pdTRUE, pdTRUE, portMAX_DELAY);
 
 //        if (event & EN_EVENT_VOICES_RECEIVED)
         {
@@ -83,7 +83,9 @@ static void vcTaskFunc(void const* argument)
                     }
                 }
             }
-            xEventGroupSetBits(GLOBAL_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_READY);
+            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_SEND);
+            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_RECORD);
+
             middIOToggle(EN_OUT_JOB_LED);
         }
     }
