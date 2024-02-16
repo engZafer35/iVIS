@@ -22,7 +22,7 @@
 
 /* ********************** Debug Macros **********************/
 
-#define ALL_DBG_MSG_ACTIVE      (DISABLE)//(ENABLE)//
+#define ALL_DBG_MSG_ACTIVE      (ENABLE)//(DISABLE)//
 #include <stdio.h>
 
 #ifndef SHOW_PAGE_DBG_MSG
@@ -33,7 +33,7 @@
 
 #define DBG_MSG(format, args...) fprintf(stdout, "-> %s():%d: ", __FUNCTION__, __LINE__), \
                                  fprintf(stdout, format , ##args), \
-                                 fprintf(stdout, "\n\r")
+                                 fprintf(stdout, "\r\n")
 #else
 #define DBG_MSG(format, args...)
 #endif
