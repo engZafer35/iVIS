@@ -33,27 +33,27 @@
 		<link>
 			<name>AppIVIS</name>
 			<type>2</type>
-			<location>/home/CORP.AIRTIES.COM/zafer.satilmis/workspace_z/iVIS/Application/AppIVIS</location>
+			<locationURI>PARENT-2-PROJECT_LOC/Application</locationURI>
 		</link>
 		<link>
 			<name>Documents</name>
 			<type>2</type>
-			<location>/home/CORP.AIRTIES.COM/zafer.satilmis/workspace_z/iVIS/Documents</location>
+			<locationURI>PARENT-2-PROJECT_LOC/Documents</locationURI>
 		</link>
 		<link>
 			<name>Drivers</name>
 			<type>2</type>
-			<location>/home/CORP.AIRTIES.COM/zafer.satilmis/workspace_z/iVIS/Drivers</location>
+			<locationURI>PARENT-2-PROJECT_LOC/Drivers</locationURI>
 		</link>
 		<link>
 			<name>Middleware</name>
 			<type>2</type>
-			<location>/home/CORP.AIRTIES.COM/zafer.satilmis/workspace_z/iVIS/Middleware</location>
+			<locationURI>PARENT-2-PROJECT_LOC/Middleware</locationURI>
 		</link>
 		<link>
 			<name>Platform</name>
 			<type>2</type>
-			<location>/home/CORP.AIRTIES.COM/zafer.satilmis/workspace_z/iVIS/Platform</location>
+			<locationURI>PARENT-2-PROJECT_LOC/Platform</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

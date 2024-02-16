@@ -985,10 +985,12 @@ uint32_t enc28j60CalcCrc(const void *data, size_t length)
 
 void enc28j60DumpReg(NetInterface *interface)
 {
-#if (TRACE_LEVEL >= TRACE_LEVEL_DEBUG)
+//#if (TRACE_LEVEL >= TRACE_LEVEL_DEBUG)
    uint8_t i;
    uint8_t bank;
    uint16_t address;
+
+   uint8_t temp;
 
    //Display header
    TRACE_DEBUG("    Bank 0  Bank 1  Bank 2  Bank 3\r\n");
@@ -1018,7 +1020,7 @@ void enc28j60DumpReg(NetInterface *interface)
          {
             address |= MAC_REG_TYPE;
          }
-
+         temp = enc28j60ReadReg(interface, address);
          //Display register contents
          TRACE_DEBUG("0x%02" PRIX8 "    ", enc28j60ReadReg(interface, address));
       }
@@ -1029,7 +1031,7 @@ void enc28j60DumpReg(NetInterface *interface)
 
    //Terminate with a line feed
    TRACE_DEBUG("\r\n");
-#endif
+//#endif
 }
 
 

@@ -34,9 +34,9 @@
 #define APP_HOST_NAME   "iVIS-Master"
 #define APP_MAC_ADDR    "02:03:04:05:06:07"
 
-#define APP_IPV4_HOST_ADDR          "192.168.0.35"
+#define APP_IPV4_HOST_ADDR          "192.168.1.35"
 #define APP_IPV4_SUBNET_MASK        "255.255.255.0"
-#define APP_IPV4_DEFAULT_GATEWAY    "192.168.0.254"
+#define APP_IPV4_DEFAULT_GATEWAY    "192.168.1.254"
 
 #define UDP_BASE_PORT_NUM (2000)
 

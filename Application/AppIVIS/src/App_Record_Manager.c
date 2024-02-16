@@ -40,8 +40,8 @@ static void recTaskFunc(void const* argument)
 /***************************** PUBLIC FUNCTIONS  ******************************/
 RETURN_STATUS appRecInit(void)
 {
-    MX_FATFS_Init();
-    MX_USB_HOST_Init();
+//    MX_FATFS_Init();
+//    MX_USB_HOST_Init();
 
     //todo: mount file system.
 

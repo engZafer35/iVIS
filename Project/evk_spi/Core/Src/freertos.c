@@ -52,9 +52,9 @@
 #define APP_MAC_ADDR "02:AA:35:66:40:44"
 
 #define APP_USE_DHCP_CLIENT ENABLED
-#define APP_IPV4_HOST_ADDR "192.168.0.35"
+#define APP_IPV4_HOST_ADDR "192.168.1.35"
 #define APP_IPV4_SUBNET_MASK "255.255.255.0"
-#define APP_IPV4_DEFAULT_GATEWAY "192.168.0.254"
+#define APP_IPV4_DEFAULT_GATEWAY "192.168.1.254"
 #define APP_IPV4_PRIMARY_DNS "8.8.8.8"
 #define APP_IPV4_SECONDARY_DNS "8.8.4.4"
 
@@ -208,8 +208,8 @@ void MX_FREERTOS_Init(void) {
 //
 //   HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, TRUE);
 //
-//  osThreadDef(thirdTask, thirdTaskLoop, osPriorityNormal, 0, 512);
-//  defaultTaskHandle = osThreadCreate(osThread(thirdTask), NULL);
+  osThreadDef(thirdTask, thirdTaskLoop, osPriorityNormal, 0, 512);
+  defaultTaskHandle = osThreadCreate(osThread(thirdTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 
@@ -401,10 +401,10 @@ void thirdTaskLoop(void const * argument)
 
     while(1)
     {
-        err = ping(&netInterface[0], &ip, 32, 0xFF, 500, NULL);
+        err = ping(&netInterface[0], &ip, 32, 0xFF, 200, NULL);
 
         HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
-        osDelay(1000);
+        osDelay(100);
     }
 }
 
