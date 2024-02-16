@@ -14,7 +14,7 @@
 /*********************************INCLUDES*************************************/
 #include "GeneralBoardConfig.h"
 #include "Global_Definitions.h"
-#include "debug.h"
+#include "ZDebug.h"
 /******************************MACRO DEFINITIONS*******************************/
 #define SW_VERSION_MAJOR (0x01)
 #define SW_VERSION_MINOR (0x00)
