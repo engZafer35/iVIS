@@ -351,7 +351,7 @@ void enc28j60EventHandler(NetInterface *interface)
       if((value & ENC28J60_PHSTAT2_LSTAT) != 0)
       {
          //Link speed
-         interface->linkSpeed = NIC_LINK_SPEED_10MBPS;
+         interface->linkSpeed = NIC_LINK_SPEED_100MBPS;//NIC_LINK_SPEED_10MBPS;
 
 #if (ENC28J60_FULL_DUPLEX_SUPPORT == ENABLED)
          //Full-duplex mode

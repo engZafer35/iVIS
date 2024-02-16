@@ -985,7 +985,7 @@ uint32_t enc28j60CalcCrc(const void *data, size_t length)
 
 void enc28j60DumpReg(NetInterface *interface)
 {
-//#if (TRACE_LEVEL >= TRACE_LEVEL_DEBUG)
+#if (TRACE_LEVEL >= TRACE_LEVEL_DEBUG)
    uint8_t i;
    uint8_t bank;
    uint16_t address;
@@ -1031,7 +1031,7 @@ void enc28j60DumpReg(NetInterface *interface)
 
    //Terminate with a line feed
    TRACE_DEBUG("\r\n");
-//#endif
+#endif
 }
 
 
