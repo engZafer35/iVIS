@@ -110,8 +110,8 @@ RETURN_STATUS middMCUTimers(void)
  */
 RETURN_STATUS middMCUUartInit(void)
 {
-    UART_DEBUG_INIT();  //for debug, and bootloader, uart1
-    UART_COMM_INIT(); //for mfd comm, uart2
+    UART_DEBUG_INIT();  //for debug, uart2
+    UART_COMM_INIT(); //for mfd comm, uart6
 
     return SUCCESS;
 }
