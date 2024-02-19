@@ -122,9 +122,9 @@
 //TCP support
 #define TCP_SUPPORT ENABLED
 //Default buffer size for transmission
-#define TCP_DEFAULT_TX_BUFFER_SIZE (1430*2)
+#define TCP_DEFAULT_TX_BUFFER_SIZE (5430*2)
 //Default buffer size for reception
-#define TCP_DEFAULT_RX_BUFFER_SIZE (1430*2)
+#define TCP_DEFAULT_RX_BUFFER_SIZE (5430*2)
 //Default SYN queue size for listening sockets
 #define TCP_DEFAULT_SYN_QUEUE_SIZE 4
 //Maximum number of retransmissions

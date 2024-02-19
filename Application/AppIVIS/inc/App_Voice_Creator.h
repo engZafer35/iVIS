@@ -14,8 +14,10 @@
 /*********************************INCLUDES*************************************/
 #include "Project_Conf.h"
 /******************************MACRO DEFINITIONS*******************************/
-#define MAX_INFORM_UNIT_NUMBER  (5)
+
+#define UDP_VOICE_PACKET_SIZE   (160) //byte
 /*******************************TYPE DEFINITIONS ******************************/
+
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/
 
@@ -32,8 +34,8 @@ RETURN_STATUS appVoCreatInit(void);
  *          can be invoked to sum with other already summed voice data.
  *          So, not need to wait for all client data to be ready.
  */
-void appVoCreatAddedVoice(U32 clientNum);
-
+void appVoCreatAddVoice(U8 *voice, U32 clientNum);
+void appVoCreatAllClientVoiceReceived(void);
 /**
  * \brief   If needed to inform a unit when created voice ready
  *          Register by this function

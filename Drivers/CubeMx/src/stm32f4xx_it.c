@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -58,11 +57,6 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern HCD_HandleTypeDef hhcd_USB_OTG_FS;
-extern DMA_HandleTypeDef hdma_usart2_tx;
-extern DMA_HandleTypeDef hdma_usart2_rx;
-extern DMA_HandleTypeDef hdma_usart6_rx;
-extern DMA_HandleTypeDef hdma_usart6_tx;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart6;
 /* USER CODE BEGIN EV */
@@ -81,7 +75,7 @@ void NMI_Handler(void)
 
   /* USER CODE END NonMaskableInt_IRQn 0 */
   /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
-  while (1)
+   while (1)
   {
   }
   /* USER CODE END NonMaskableInt_IRQn 1 */
@@ -190,34 +184,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles DMA1 stream5 global interrupt.
-  */
-void DMA1_Stream5_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart2_rx);
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA1 stream6 global interrupt.
-  */
-void DMA1_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart2_tx);
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream6_IRQn 1 */
-}
-
-/**
   * @brief This function handles EXTI line[9:5] interrupts.
   */
 void EXTI9_5_IRQHandler(void)
@@ -225,7 +191,7 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE BEGIN EXTI9_5_IRQn 0 */
 
   /* USER CODE END EXTI9_5_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
+  HAL_GPIO_EXTI_IRQHandler(ENJ_INT_Pin);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
 
   /* USER CODE END EXTI9_5_IRQn 1 */
@@ -246,48 +212,6 @@ void USART2_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles DMA2 stream1 global interrupt.
-  */
-void DMA2_Stream1_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream1_IRQn 0 */
-
-  /* USER CODE END DMA2_Stream1_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart6_rx);
-  /* USER CODE BEGIN DMA2_Stream1_IRQn 1 */
-
-  /* USER CODE END DMA2_Stream1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USB On The Go FS global interrupt.
-  */
-void OTG_FS_IRQHandler(void)
-{
-  /* USER CODE BEGIN OTG_FS_IRQn 0 */
-
-  /* USER CODE END OTG_FS_IRQn 0 */
-//  HAL_HCD_IRQHandler(&hhcd_USB_OTG_FS);
-  /* USER CODE BEGIN OTG_FS_IRQn 1 */
-
-  /* USER CODE END OTG_FS_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA2 stream6 global interrupt.
-  */
-void DMA2_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
-
-  /* USER CODE END DMA2_Stream6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart6_tx);
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
-
-  /* USER CODE END DMA2_Stream6_IRQn 1 */
-}
-
-/**
   * @brief This function handles USART6 global interrupt.
   */
 void USART6_IRQHandler(void)
@@ -304,4 +228,3 @@ void USART6_IRQHandler(void)
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -48,6 +48,8 @@ typedef _DRV_RET_TYPE           DRV_RET_TYPE;
 
 
 typedef _EN_INTERRUPT_LIST EN_INTERRUPT_LIST;
+
+#define OS_SUPPORT_STATIC_ALLOCATION (_OS_SUPPORT_STATIC_ALLOCATION)
 /****************** BOARD MCU CLOCK CONTROL *******************/
 
 #define MCU_CORE_INIT()         _MCU_CORE_INIT()

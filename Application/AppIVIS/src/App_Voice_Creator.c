@@ -15,23 +15,48 @@
 #include "App_Global_Variables.h"
 
 #include "MiddDigitalIOControl.h"
-#include "Midd_Memory_Opr.h"
 /****************************** MACRO DEFINITIONS *****************************/
-#define CLIENT_VOICE_BUFF(indx, cli)            (g_rcvVoiceBuff.rcvClientVoice[indx].clientVoice[cli].voice.voice)
-#define IS_NEW_CLIENT_VOICE_DATA(indx, cli)     (g_rcvVoiceBuff.rcvClientVoice[indx].clientVoice[cli].isNew)
+/********** Voice Packet Parameters ************/
+#define CLIENT_VOICE_BUFF_HEAD(clientNum)           (g_voiceBuff.rcvClientVoice[g_voiceBuff.head].clientsVoice[clientNum].voice)
+#define IS_NEW_CLIENT_VOICE_DATA_HEAD(clientNum)    (g_voiceBuff.rcvClientVoice[g_voiceBuff.head].clientsVoice[clientNum].isNew)
 
+#define CLIENT_VOICE_BUFF_TAIL(clientNum)           (g_voiceBuff.rcvClientVoice[g_voiceBuff.tail].clientsVoice[clientNum].voice)
+#define IS_NEW_CLIENT_VOICE_DATA_TAIL(clientNum)    (g_voiceBuff.rcvClientVoice[g_voiceBuff.tail].clientsVoice[clientNum].isNew)
+
+/********** Fast Copy Method ************/
+#ifdef WORKING_PLATFORM_STM
+#define FAST_MEMCPY(src, dst, leng) HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)src, (uint32_t)dst , leng), \
+                                    HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY)
+#else
+#define FAST_MEMCPY(src, dst, leng) memcpy(dst, src, leng)
+#endif
 /******************************* TYPE DEFINITIONS *****************************/
+typedef struct VoiceBuff
+{
+    U8 voice[UDP_VOICE_PACKET_SIZE];
+    U8 isNew;
+}VoiceBuff_t;
 
+typedef struct ClientsVoiceBuff
+{
+    VoiceBuff_t clientsVoice[MAX_CLIENT_NUMBER];
+}ClientsVoiceBuff_t;
+
+typedef struct VoiceCircularBuff
+{
+    ClientsVoiceBuff_t rcvClientVoice[CIRCULAR_BUFF_LENG];
+
+    U8 head;
+    U8 tail;
+}VoiceCircularBuff_t;
 /********************************** VARIABLES *********************************/
+VoiceCircularBuff_t g_voiceBuff;
+
+#define MAX_INFORM_UNIT_NUMBER (5)
 VoidCallback cbList[MAX_INFORM_UNIT_NUMBER];
 
-extern struct VoiceCircularBuff g_rcvVoiceBuff;
-
-U8 voice[UDP_VOICE_PACKET_SIZE];
-const U8 emptyBuff[UDP_VOICE_PACKET_SIZE];
-
-U32 g_currIndex;
-
+static U8 mergedVoice[UDP_VOICE_PACKET_SIZE];
+static U8 emptyZeroBuff[UDP_VOICE_PACKET_SIZE]; //it is used to clear merged voice data by using FASTCOPY-dma
 /***************************** STATIC FUNCTIONS  ******************************/
 
 /**< after end of sum of speeches, call callback functions */
@@ -52,43 +77,45 @@ static void vcTaskFunc(void const* argument)
 {
     int z;
     int cli;
-//    EventBits_t event;
 
     while(1)
     {
         xEventGroupWaitBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED, pdTRUE, pdTRUE, portMAX_DELAY);
 
-//        if (event & EN_EVENT_VOICES_RECEIVED)
+        while (g_voiceBuff.tail != g_voiceBuff.head)
         {
-            /**
-             * check if first client(index=0) has new voice data,
-             * We can use fast memcpy instead of for loop for first client
-             */
-//            if (IS_NEW_CLIENT_VOICE_DATA(g_currIndex, 0))
-//            {
-//                FAST_MEMCPY(voice, CLIENT_VOICE_BUFF(g_currIndex, 0), sizeof(voice));
-//            }
-//            else
-//            {
-//                FAST_MEMCPY(voice, emptyBuff, sizeof(voice));
-//            }
-
-            for (cli = 1; cli < MAX_CLIENT_NUMBER; ++cli)
+//            xSemaphoreTake( mutex, portMAX_DELAY);
+            for (cli = 0; cli < MAX_CLIENT_NUMBER; ++cli)
             {
-                if (IS_NEW_CLIENT_VOICE_DATA(g_currIndex, cli)) //check is there new voice data
+                if (IS_NEW_CLIENT_VOICE_DATA_TAIL(cli)) //check is there new voice data
                 {
                     for (z = 0; z < UDP_VOICE_PACKET_SIZE; ++z)
                     {
-                        voice[z] += CLIENT_VOICE_BUFF(g_currIndex, cli)[z];
+                        mergedVoice[z] += CLIENT_VOICE_BUFF_TAIL(cli)[z];
                     }
+
+                    IS_NEW_CLIENT_VOICE_DATA_TAIL(cli) = FALSE; //clear used voice data
                 }
             }
-            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_SEND);
-            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_RECORD);
 
-            middIOToggle(EN_OUT_JOB_LED);
+//            printf("%d\n\r", mergedVoice[1]);
+
+            FAST_MEMCPY(emptyZeroBuff, mergedVoice, UDP_VOICE_PACKET_SIZE); //clear mergedVoice buff, it will be used again
+
+            g_voiceBuff.tail++;
+            if (g_voiceBuff.tail >= CIRCULAR_BUFF_LENG)
+            {
+                g_voiceBuff.tail = 0; //set beginning of buffer
+            }
+
+//            xSemaphoreGive( mutex );
         }
+
+////            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_SEND);
+////            xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_INTEGTATED_VOICE_RECORD);
+        middIOToggle(EN_OUT_ERR_LED);
     }
+
 }
 
 /***************************** PUBLIC FUNCTIONS  ******************************/
@@ -97,10 +124,21 @@ RETURN_STATUS appVoCreatInit(void)
 
     return SUCCESS;
 }
-
-void appVoCreatAddedVoice(U32 clientum)
+void appVoCreatAddVoice(U8 *voice, U32 clientNum)
 {
+    FAST_MEMCPY(voice, CLIENT_VOICE_BUFF_HEAD(clientNum), UDP_VOICE_PACKET_SIZE); //use fast memcpy method, DMA mem to mem
+    IS_NEW_CLIENT_VOICE_DATA_HEAD(clientNum) = TRUE;
+}
 
+void appVoCreatAllClientVoiceReceived(void)
+{
+    g_voiceBuff.head++;
+    if (g_voiceBuff.head >= CIRCULAR_BUFF_LENG)
+    {
+        g_voiceBuff.head = 0; //set beginning of buffer
+    }
+
+    xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED);
 }
 
 RETURN_STATUS appVoCreatRegisterVoiceReadyCb(VoidCallback cb)

@@ -17,15 +17,12 @@
 #include "core/net.h"
 #include "drivers/eth/enc28j60_driver.h"
 #include "dhcp/dhcp_client.h"
-#include "debug.h"
 #include "spi_driver.h"
 #include "ext_int_driver.h"
 #include "core/bsd_socket.h"
 #include "../../../CycloneTcp/cyclone_tcp/core/socket.h"
 
-
 #include "MiddDigitalIOControl.h"
-#include "Midd_Memory_Opr.h"
 /****************************** MACRO DEFINITIONS *****************************/
 
 /************* Connection Parameters ************/
@@ -38,54 +35,22 @@
 #define APP_IPV4_SUBNET_MASK        "255.255.255.0"
 #define APP_IPV4_DEFAULT_GATEWAY    "192.168.1.254"
 
-#define UDP_BASE_PORT_NUM (2000)
+#define UDP_SERVER_PORT_NUM (2000)
 
-/********** Voice Packet Parameters ************/
-#define CLIENT_VOICE_BUFF(cli) (g_rcvVoiceBuff.rcvClientVoice[g_rcvVoiceBuff.cliIndex[cli]].clientVoice[cli])
 
 /********** Timer Macro ************/
-#define LAST_PACKET_TIME    (5)//ms
+#define LAST_PACKET_TIME    (100)//ms
+
 /******************************* TYPE DEFINITIONS *****************************/
-struct ClientUdpSocket
-{
-    struct sockaddr_in serverAddr;
-    U32  udpPortNum;
-    S32  socketfd;
-    BOOL isActive;
-};
-
-static struct ClientUdpSocket g_udpClients[MAX_CLIENT_NUMBER];
-
-//struct ClientVoiceStr
-//{
-//    Ipv4Addr ip;
-//    U8 voice[UDP_VOICE_PACKET_SIZE];
-//};
-//
-//struct VoiceBuff
-//{
-//    struct ClientVoiceStr voice;
-//    U8 isNew;
-//};
-//
-//struct ReceivedVoiceStr
-//{
-//    struct VoiceBuff clientVoice[MAX_CLIENT_NUMBER];
-//};
-//
-//struct VoiceCircularBuff
-//{
-//    struct ReceivedVoiceStr rcvClientVoice[CIRCULAR_BUFF_LENG];
-//    U8 cliIndex[MAX_CLIENT_NUMBER]; // it can be max (CIRCULAR_BUFF_LENG-1)
-//
-//    U8 index;
-//};
-
-struct VoiceCircularBuff g_rcvVoiceBuff;
 
 /********************************** VARIABLES *********************************/
+
+static S32 g_UdpSocketFd;
+
+static SemaphoreHandle_t mutexRcv;
+
 osTimerId g_timerIDLastPacket;
-BOOL isTimerActive = FALSE;
+static volatile BOOL g_IsTimerActive = FALSE;
 
 static in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
 /***************************** STATIC FUNCTIONS  ******************************/
@@ -98,48 +63,43 @@ static void completedFastCpyCb(void)
 /** Time has elapsed for all clients to send audio data */
 static void lastVoicePacketTimerCb(const void *param)
 {
-    /** not need to use mutex. here will be called by timer interrupt */
-    isTimerActive = FALSE;
-    xEventGroupSetBits(GLOBAL_VOICE_EVENT_LIST_ID, EN_EVENT_VOICES_RECEIVED);
+    xSemaphoreTake(mutexRcv, portMAX_DELAY);
 
-    g_rcvVoiceBuff.index++;
-    if (g_rcvVoiceBuff.index >= CIRCULAR_BUFF_LENG)
-    {
-        g_rcvVoiceBuff.index = 0; //set beginning of buffer
-    }
+    appVoCreatAllClientVoiceReceived(); //all client voice received, inform voiceCreator unit
+    g_IsTimerActive = FALSE;
+
+    xSemaphoreGive(mutexRcv);
 }
 
-static RETURN_STATUS createUdpSockets(U32 clientNum)
+static RETURN_STATUS createUdpSockets(void)
 {
     RETURN_STATUS retVal = SUCCESS;
-    S32 socketfd;
+    struct sockaddr_in serverAddr;
 
-    socketfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if(socketfd < 0)
+    g_UdpSocketFd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if(g_UdpSocketFd >= 0)
     {
-        retVal = FAILURE;
-        TRACE_ERROR("[E]-> Socket could not be created for %d client\n\r", clientNum);
-    }
-
-    if (SUCCESS == retVal)
-    {
-        g_udpClients[clientNum].serverAddr.sin_family        = AF_INET;
-        g_udpClients[clientNum].serverAddr.sin_port          = htons(UDP_BASE_PORT_NUM + clientNum);
-        g_udpClients[clientNum].serverAddr.sin_addr.s_addr   = inet_addr("192.168.0.35");
+        serverAddr.sin_family        = AF_INET;
+        serverAddr.sin_port          = htons(UDP_SERVER_PORT_NUM);
+        serverAddr.sin_addr.s_addr   = inet_addr(APP_IPV4_HOST_ADDR);
 
         // Bind the socket with the server address
-        if (bind(socketfd, (const struct sockaddr *)&g_udpClients[clientNum].serverAddr, sizeof(struct sockaddr_in)) < 0 )
+        if (bind(g_UdpSocketFd, (const struct sockaddr *)&serverAddr, sizeof(struct sockaddr_in)) < 0 )
         {
             retVal = FAILURE;
         }
-    }
 
-    if (SUCCESS == retVal)
+        if (SUCCESS == retVal)
+        {
+            DEBUG_INFO("[I]-> UDP Server created !!!");
+            DEBUG_INFO("[I]-> UDP Server IP: %s", APP_IPV4_HOST_ADDR);
+            DEBUG_INFO("[I]-> UDP Server Port: %d", UDP_SERVER_PORT_NUM);
+        }
+    }
+    else
     {
-        g_udpClients[clientNum].socketfd    = socketfd;
-        g_udpClients[clientNum].udpPortNum  = UDP_BASE_PORT_NUM + clientNum;
-        g_udpClients[clientNum].isActive    = TRUE;
-        TRACE_DEBUG("[D]-> Socket created for %d client\n\r", clientNum);
+        retVal = FAILURE;
+        DEBUG_ERROR("[E]-> UDP Socket could not be created");
     }
 
     return retVal;
@@ -147,85 +107,60 @@ static RETURN_STATUS createUdpSockets(U32 clientNum)
 
 static void closeUdpSocket(U32 clientNum)
 {
-    closesocket(g_udpClients[clientNum].socketfd);
-
-    g_udpClients[clientNum].socketfd   = -1;
-    g_udpClients[clientNum].udpPortNum = 0;
-    g_udpClients[clientNum].isActive   = FALSE;
+    closesocket(g_UdpSocketFd);
+    g_UdpSocketFd = -1;
 }
 
 static void vrTaskFunc(void const* argument)
 {
     my_fd_set fdSet;
-    my_timeval time;
+    U32 cliCounter;
 
     struct sockaddr_in clientAddr;
     int server_struct_length = sizeof(clientAddr);
 
-    struct ClientVoiceStr recvData;
-    U32 z;
+    U8 cliVoice[UDP_VOICE_PACKET_SIZE];
 
-    {
-        U32 counterOK = 0;
-        U32 i;
-        for (i = 0; i < 1 /*MAX_CLIENT_NUMBER*/; ++i)
-        {
-            if (SUCCESS == createUdpSockets(i))
-            {
-                counterOK++; //increase value for each created socket
-            }
-        }
-        //handle error. now, I don't know what I do.
-    }
+    osDelayTask(1000); //wait until net stack is ready, netTaskRunning can be used instead of sleep
+
+    createUdpSockets();
 
     FD_ZERO(&fdSet);
-    FD_SET(g_udpClients[0].socketfd, &fdSet);
-
-//    time.tv_sec = 0;
-//    time.tv_usec = 20000;
-
-    //TODO: create broadcast or multicast UDP socket
-
-    osDelayTask(200);
-
-    middIOWrite(EN_OUT_POWER_LED, DISABLE);
+    FD_SET(g_UdpSocketFd, &fdSet);
 
     while(1)
     {
         bsd_select(FD_SETSIZE, &fdSet, NULL, NULL, NULL);
 
-        if (FD_ISSET (g_udpClients[0].socketfd, &fdSet))
-        {
-            middIOToggle(EN_OUT_INFO_LED);
-        }
+        middIOToggle(EN_OUT_JOB_LED);
 
         // Receive the server's response:
-        if(recvfrom(g_udpClients[0].socketfd, &recvData, sizeof(recvData), 0,  \
+        if(recvfrom(g_UdpSocketFd, cliVoice, sizeof(cliVoice), 0,  \
            (struct sockaddr*)&clientAddr, &server_struct_length) > 0)
         {
-            for (z = 0; z < MAX_CLIENT_NUMBER; ++z)
+            /*
+             * lastVoicePacketTimerCb might be running, if so, we can lose a voice packet because isTimerActive = TRUE,
+             * it should be set to FALSE again to set timer when the first voice packet is received.
+             */
+            xSemaphoreTake(mutexRcv, portMAX_DELAY);
+
+            for (cliCounter = 0; cliCounter < MAX_CLIENT_NUMBER; ++cliCounter)
             {
-                if (clientIPAddr[z] == clientAddr.sin_addr.s_addr) //find client number = z
+                if (clientIPAddr[cliCounter] == clientAddr.sin_addr.s_addr) //find client number = z
                 {
-                    //copy data to related client buffer
-                    //FAST_MEMCPY(&CLIENT_VOICE_BUFF(z), &recvData, sizeof(recvData));
-                    CLIENT_VOICE_BUFF(z).isNew = TRUE;
+                    int c = cliVoice[0]-48; //for test
+                    appVoCreatAddVoice(cliVoice, c /*cliCounter*/);
 
-                    //increase client buffer index
-                    g_rcvVoiceBuff.cliIndex[z]++;
-                    if (g_rcvVoiceBuff.cliIndex[z] >= CIRCULAR_BUFF_LENG)
-                    {
-                        g_rcvVoiceBuff.cliIndex[z] = 0;
-                    }
-
-                    if (FALSE == isTimerActive)
+                    if (FALSE == g_IsTimerActive)
                     {
                         osTimerStart(g_timerIDLastPacket, LAST_PACKET_TIME);
-                        isTimerActive = TRUE;
+                        g_IsTimerActive = TRUE;
                     }
                     break;
                 }
             }
+
+            xSemaphoreGive(mutexRcv);
         }
     }
 }
@@ -244,7 +179,7 @@ RETURN_STATUS appVoiceRecInit(void)
     if(error)
     {
         middIOWrite(EN_OUT_ERR_LED, TRUE);
-        TRACE_ERROR("Failed to initialize TCP/IP stack!\r\n");
+        DEBUG_ERROR("Failed to initialize TCP/IP stack!\r\n");
         retVal = FAILURE;
     }
 
@@ -271,7 +206,7 @@ RETURN_STATUS appVoiceRecInit(void)
         if(error)
         {
             middIOWrite(EN_OUT_ERR_LED, TRUE);
-            TRACE_ERROR("Failed to configure interface %s!\r\n", interface->name);
+            DEBUG_ERROR("Failed to configure interface %s!\r\n", interface->name);
             retVal = FAILURE;
         }
 
@@ -291,13 +226,15 @@ RETURN_STATUS appVoiceRecInit(void)
         }
     }
 
-    clientIPAddr[0] = inet_addr("192.168.0.88"); //TODO: set automatically
+    clientIPAddr[0] = inet_addr("192.168.1.88"); //TODO: set automatically
 
     if (SUCCESS == retVal)
     {
         osTimerDef(timerLastPacket, lastVoicePacketTimerCb);
         g_timerIDLastPacket = osTimerCreate (osTimer(timerLastPacket), osTimerOnce, NULL);
     }
+
+    mutexRcv = xSemaphoreCreateMutex();
 
     return retVal;
 }

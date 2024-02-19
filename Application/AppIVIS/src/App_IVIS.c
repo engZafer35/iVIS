@@ -31,8 +31,12 @@
 /********************************** VARIABLES *********************************/
 
 /***************************** STATIC FUNCTIONS  ******************************/
+#if (OS_SUPPORT_STATIC_ALLOCATION == ENABLE)
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+
+/* GetTimerTaskMemory prototype (linked to static allocation support) */
+void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize );
 
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
@@ -45,6 +49,18 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
   /* place for user code */
 }
+
+static StaticTask_t xTimerTaskTCBBuffer;
+static StackType_t xTimerStack[configTIMER_TASK_STACK_DEPTH];
+
+void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer, StackType_t **ppxTimerTaskStackBuffer, uint32_t *pulTimerTaskStackSize )
+{
+  *ppxTimerTaskTCBBuffer = &xTimerTaskTCBBuffer;
+  *ppxTimerTaskStackBuffer = &xTimerStack[0];
+  *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
+  /* place for user code */
+}
+#endif
 
 static RETURN_STATUS initMcuCore(void)
 {
@@ -73,7 +89,7 @@ static RETURN_STATUS initSwUnits(void)
 //    retVal |= middEventTimerInit(); //init periodic event timer
     retVal |= middIOInit();
     retVal |= MiddCanCommInit();
-
+    MX_DMA_Init();
     /** don't need to check to set system failure */
 //    middSerialCommInit();
 
@@ -123,7 +139,7 @@ RETURN_STATUS appIvisStart(void)
 
     retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
     retVal |= appJobCreatJob(EN_JOB_VOICE_CREATOR);
-    retVal |= appJobCreatJob(EN_JOB_RECORD_MANAGER);
+//    retVal |= appJobCreatJob(EN_JOB_RECORD_MANAGER);
 
     //TODO: create other jobs
 

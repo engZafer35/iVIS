@@ -23,6 +23,7 @@
 #include "usart.h"
 //#include "can.h"
 #include "cmsis_os.h"
+#include "FreeRTOS.h"
 #include "dma.h"
 #include "spi.h"
 
@@ -148,6 +149,8 @@ typedef enum _EN_INTERRUPT_LIST
        "Comment unused interrupt ID and set MAX_USING_INT"
 #endif
 typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
+
+#define _OS_SUPPORT_STATIC_ALLOCATION   (configSUPPORT_STATIC_ALLOCATION)
 
 /********************* BOARD MCU CLOCK CONTROL **************/
 #define _MCU_CORE_INIT()                HAL_Init()

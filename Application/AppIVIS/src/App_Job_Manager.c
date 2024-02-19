@@ -44,7 +44,7 @@ static void jobTaskFunc(void const* argument)
     while(1)
     {
         osDelay(2000);
-        middIOToggle(EN_OUT_ERR_LED);
+        middIOToggle(EN_OUT_INFO_LED);
     }
 }
 /***************************** PUBLIC FUNCTIONS  ******************************/
