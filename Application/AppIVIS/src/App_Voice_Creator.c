@@ -30,6 +30,8 @@
 #else
 #define FAST_MEMCPY(src, dst, leng) memcpy(dst, src, leng)
 #endif
+
+#define CIRCULAR_BUFF_LENG      (10)
 /******************************* TYPE DEFINITIONS *****************************/
 typedef struct VoiceBuff
 {

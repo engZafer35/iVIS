@@ -18,9 +18,6 @@
 /******************************MACRO DEFINITIONS*******************************/
 #define MAX_CLIENT_NUMBER   (8)
 
-#define UDP_VOICE_PACKET_TIME   (20)   //ms
-
-#define CIRCULAR_BUFF_LENG      (10)
 /*******************************TYPE DEFINITIONS ******************************/
 
 /************************* GLOBAL VARIBALE REFERENCES *************************/

@@ -54,11 +54,6 @@ static volatile BOOL g_IsTimerActive = FALSE;
 
 static in_addr_t clientIPAddr[MAX_CLIENT_NUMBER];
 /***************************** STATIC FUNCTIONS  ******************************/
-/** this function should be called after fast copy/DMA finished*/
-static void completedFastCpyCb(void)
-{
-    //TODO: inform voice creator by event of semaphore, after that it will start to create one integrated voice
-}
 
 /** Time has elapsed for all clients to send audio data */
 static void lastVoicePacketTimerCb(const void *param)
