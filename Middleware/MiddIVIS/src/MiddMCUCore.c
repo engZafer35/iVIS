@@ -32,6 +32,7 @@ RETURN_STATUS middMCUClockInit(void)
 {
     MCU_CORE_INIT();
     CONF_MCU_CLOCK();
+    CONF_PRIP_CLOCK();
 
     return SUCCESS;
 }
@@ -72,7 +73,7 @@ RETURN_STATUS middMCUI2CInit(void)
 }
 
 /**
- * @brief init I2C
+ * @brief init SPI
  * @param void
  * @return if everything is OK, return SUCCES
  *         otherwise return FAILURE
@@ -81,6 +82,19 @@ RETURN_STATUS middMCUSPIInit(void)
 {
    SPI_INIT();
    return SUCCESS;
+}
+
+/**
+ * @brief init I2S
+ * @param void
+ * @return if everything is OK, return SUCCES
+ *         otherwise return FAILURE
+ */
+RETURN_STATUS middMCUI2SInit(void)
+{
+    I2S3_INIT();
+    I2S2_INIT();
+    return SUCCESS;
 }
 
 RETURN_STATUS middMCUDmaInit(void)

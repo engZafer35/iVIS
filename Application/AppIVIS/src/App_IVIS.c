@@ -68,8 +68,11 @@ static RETURN_STATUS initMcuCore(void)
 
     retVal |= middMCUClockInit(); //firstly init clock and system
     retVal |= middMCUGpioInit();
-    retVal |= middMCUSPIInit();
     retVal |= middMCUDmaInit();
+    retVal |= middMCUI2CInit();
+    retVal |= middMCUI2SInit();
+    retVal |= middMCUSPIInit();
+
     retVal |= middMCUUartInit();
 
 //    retVal |= middMCUCanInit();
@@ -89,16 +92,16 @@ static RETURN_STATUS initSwUnits(void)
 //    retVal |= middEventTimerInit(); //init periodic event timer
     retVal |= middIOInit();
     retVal |= MiddCanCommInit();
-    MX_DMA_Init();
+
     /** don't need to check to set system failure */
 //    middSerialCommInit();
 
     if (SUCCESS == retVal)
     {
         retVal |= appGVInit();
-        retVal |= appVoiceRecInit();
-        retVal |= appVoCreatInit();
-        retVal |= appRecInit();
+//        retVal |= appVoiceRecInit();
+//        retVal |= appVoCreatInit();
+//        retVal |= appRecInit();
 
         retVal |= appJobInit();
     }
@@ -137,8 +140,8 @@ RETURN_STATUS appIvisStart(void)
 {
     RETURN_STATUS retVal = SUCCESS;
 
-    retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
-    retVal |= appJobCreatJob(EN_JOB_VOICE_CREATOR);
+//    retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
+//    retVal |= appJobCreatJob(EN_JOB_VOICE_CREATOR);
 //    retVal |= appJobCreatJob(EN_JOB_RECORD_MANAGER);
 
     //TODO: create other jobs

@@ -12,6 +12,6 @@
 #define   _ENC28J60_EXT_PIN   ENJ_INT_Pin
 #define   _ENC28J60_CS_GPIO   ENJ_CS_GPIO_Port
 #define   _ENC28J60_CS_PIN    ENJ_CS_Pin
-#define   _ENC28J60_SPI       hspi2
+#define   _ENC28J60_SPI       hspi1
 
 #endif

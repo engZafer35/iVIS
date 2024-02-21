@@ -53,12 +53,20 @@ RETURN_STATUS middMCUGpioInit(void);
 RETURN_STATUS middMCUI2CInit(void);
 
 /**
- * @brief init I2C
+ * @brief init SPI
  * @param void
  * @return if everything is OK, return SUCCES
  *         otherwise return FAILURE
  */
 RETURN_STATUS middMCUSPIInit(void);
+
+/**
+ * @brief init I2S
+ * @param void
+ * @return if everything is OK, return SUCCES
+ *         otherwise return FAILURE
+ */
+RETURN_STATUS middMCUI2SInit(void);
 
 /**
  * @brief init DMA

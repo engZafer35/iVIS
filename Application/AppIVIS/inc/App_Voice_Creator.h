@@ -35,6 +35,7 @@ RETURN_STATUS appVoCreatInit(void);
  *          So, not need to wait for all client data to be ready.
  */
 void appVoCreatAddVoice(U8 *voice, U32 clientNum);
+
 void appVoCreatAllClientVoiceReceived(void);
 /**
  * \brief   If needed to inform a unit when created voice ready

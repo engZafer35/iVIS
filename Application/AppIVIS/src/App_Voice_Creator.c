@@ -100,8 +100,6 @@ static void vcTaskFunc(void const* argument)
                 }
             }
 
-//            printf("%d\n\r", mergedVoice[1]);
-
             FAST_MEMCPY(emptyZeroBuff, mergedVoice, UDP_VOICE_PACKET_SIZE); //clear mergedVoice buff, it will be used again
 
             g_voiceBuff.tail++;

@@ -54,6 +54,7 @@ typedef _EN_INTERRUPT_LIST EN_INTERRUPT_LIST;
 
 #define MCU_CORE_INIT()         _MCU_CORE_INIT()
 #define CONF_MCU_CLOCK()        _CONF_MCU_CLOCK()
+#define CONF_PRIP_CLOCK()       _CONF_PRIP_CLOCK()
 
 #define DELAY_MS(x)             _DELAY_MS(x)
 
@@ -152,6 +153,10 @@ typedef _EN_INTERRUPT_LIST EN_INTERRUPT_LIST;
 
 /****************** BOARD SPI CONTROL *******************/
 #define SPI_INIT()      _SPI_INIT()
+
+/********************* BOARD I2S CONTROL ******************/
+#define I2S2_INIT()                                                _I2S2_INIT()
+#define I2S3_INIT()                                                _I2S3_INIT()
 
 /****************** BOARD DMA CONTROL *******************/
 #define DMA_INIT()      _DMA_INIT()

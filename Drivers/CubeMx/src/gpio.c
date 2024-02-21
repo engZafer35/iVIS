@@ -46,8 +46,8 @@ void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
@@ -55,7 +55,8 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(ENJ_CS_GPIO_Port, ENJ_CS_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LED_POWER_Pin|LED_PROC_Pin|LED_ERROR_Pin|LED_INFO_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, LED_POWER_Pin|LED_PROC_Pin|LED_ERROR_Pin|LED_INFO_Pin
+                          |Audio_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = ENJ_CS_Pin;
@@ -70,8 +71,10 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(ENJ_INT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin PDPin PDPin */
-  GPIO_InitStruct.Pin = LED_POWER_Pin|LED_PROC_Pin|LED_ERROR_Pin|LED_INFO_Pin;
+  /*Configure GPIO pins : PDPin PDPin PDPin PDPin
+                           PDPin */
+  GPIO_InitStruct.Pin = LED_POWER_Pin|LED_PROC_Pin|LED_ERROR_Pin|LED_INFO_Pin
+                          |Audio_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

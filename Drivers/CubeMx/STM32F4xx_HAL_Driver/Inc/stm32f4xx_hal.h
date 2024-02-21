@@ -222,7 +222,10 @@ HAL_StatusTypeDef HAL_DeInit(void);
 void HAL_MspInit(void);
 void HAL_MspDeInit(void);
 HAL_StatusTypeDef HAL_InitTick (uint32_t TickPriority);
+
+/* The following functions are moved here for iVIS project */
 void SystemClock_Config(void);
+void PeriphCommonClock_Config(void);
 /**
   * @}
   */

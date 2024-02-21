@@ -18,7 +18,8 @@
 #include "DriverCoreIWDT.h"
 //#include "DriverSTM32_ADC.h"
 #include "gpio.h"
-//#include "i2c.h"
+#include "i2c.h"
+#include "i2s.h"
 //#include "tim.h"
 #include "usart.h"
 //#include "can.h"
@@ -155,6 +156,7 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 /********************* BOARD MCU CLOCK CONTROL **************/
 #define _MCU_CORE_INIT()                HAL_Init()
 #define _CONF_MCU_CLOCK()               SystemClock_Config()
+#define _CONF_PRIP_CLOCK()              PeriphCommonClock_Config()
 
 #define _DELAY_MS(x)                    HAL_Delay(x)
 
@@ -189,7 +191,7 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 #define _I2C_LINE_3                                                 (hi2c3)
 
 #define _I2C1_INIT()                                                MX_I2C1_Init()
-#define _I2C2_INIT()                                                MX_I2C2_Init()
+#define _I2C2_INIT()                                                //MX_I2C2_Init()
 
 #define _I2C_IS_DEVICE_READY(line, deviceAdr, try, timeout)         HAL_I2C_IsDeviceReady(&line, (uint16_t)deviceAdr, try, timeout)
 
@@ -204,7 +206,11 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
                                                                                        I2C_MEMADD_SIZE_8BIT, (uint8_t *)buff, leng, 100)
 
 /********************* BOARD SPI CONTROL ******************/
-#define _SPI_INIT()     MX_SPI2_Init()
+#define _SPI_INIT()     MX_SPI1_Init()
+
+/********************* BOARD I2S CONTROL ******************/
+#define _I2S2_INIT()                                                MX_I2S2_Init()
+#define _I2S3_INIT()                                                MX_I2S3_Init()
 
 /****************** BOARD DMA CONTROL *******************/
 #define _DMA_INIT()     MX_DMA_Init()

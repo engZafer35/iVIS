@@ -57,11 +57,15 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define PDM_OUT_Pin GPIO_PIN_3
+#define PDM_OUT_GPIO_Port GPIOC
 #define ENJ_CS_Pin GPIO_PIN_4
 #define ENJ_CS_GPIO_Port GPIOC
 #define ENJ_INT_Pin GPIO_PIN_5
 #define ENJ_INT_GPIO_Port GPIOC
 #define ENJ_INT_EXTI_IRQn EXTI9_5_IRQn
+#define CLK_IN_Pin GPIO_PIN_10
+#define CLK_IN_GPIO_Port GPIOB
 #define LED_POWER_Pin GPIO_PIN_12
 #define LED_POWER_GPIO_Port GPIOD
 #define LED_PROC_Pin GPIO_PIN_13
@@ -70,6 +74,8 @@ void Error_Handler(void);
 #define LED_ERROR_GPIO_Port GPIOD
 #define LED_INFO_Pin GPIO_PIN_15
 #define LED_INFO_GPIO_Port GPIOD
+#define Audio_RST_Pin GPIO_PIN_4
+#define Audio_RST_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 
