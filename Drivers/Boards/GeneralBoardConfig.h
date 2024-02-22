@@ -158,6 +158,19 @@ typedef _EN_INTERRUPT_LIST EN_INTERRUPT_LIST;
 #define I2S2_INIT()                                                _I2S2_INIT()
 #define I2S3_INIT()                                                _I2S3_INIT()
 
+#define VOICE_REC_I2S_LINE_ID                                      _VOICE_REC_I2S_LINE_ID
+#define IS_VOICE_REC_I2S_LINE()                                    _IS_VOICE_REC_I2S_LINE()
+
+#define I2S_RECIVE_DMA(line, buff, leng)                           _I2S_RECIVE_DMA(line, buff, leng)
+#define I2S_REC_DMA_STOP(line)                                     _I2S_REC_DMA_STOP(line)
+#define I2S_REC_DMA_PAUSE(line)                                    _I2S_REC_DMA_PAUSE(line)
+
+#define I2S_REC_DMA_PAUSE(line)                                    _I2S_REC_DMA_PAUSE(line)
+#define I2S_REC_DMA_RESUME(line)                                   _I2S_REC_DMA_RESUME(line)
+
+#define I2S_REC_HALF_DMA_IT_FUNCTION                               _I2S_REC_HALF_DMA_IT_FUNCTION
+#define I2S_REC_CPLT_DMA_IT_FUNCTION                               _I2S_REC_CPLT_DMA_IT_FUNCTION
+
 /****************** BOARD DMA CONTROL *******************/
 #define DMA_INIT()      _DMA_INIT()
 

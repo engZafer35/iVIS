@@ -99,7 +99,7 @@ static RETURN_STATUS initSwUnits(void)
     if (SUCCESS == retVal)
     {
         retVal |= appGVInit();
-//        retVal |= appVoiceRecInit();
+        retVal |= appVoiceRecInit();
 //        retVal |= appVoCreatInit();
 //        retVal |= appRecInit();
 
@@ -140,7 +140,7 @@ RETURN_STATUS appIvisStart(void)
 {
     RETURN_STATUS retVal = SUCCESS;
 
-//    retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
+    retVal |= appJobCreatJob(EN_JOB_VOICE_RECEIVER);
 //    retVal |= appJobCreatJob(EN_JOB_VOICE_CREATOR);
 //    retVal |= appJobCreatJob(EN_JOB_RECORD_MANAGER);
 

@@ -212,6 +212,17 @@ typedef void (*InterruptCallback)(_EN_INTERRUPT_LIST intList);
 #define _I2S2_INIT()                                                MX_I2S2_Init()
 #define _I2S3_INIT()                                                MX_I2S3_Init()
 
+#define _VOICE_REC_I2S_LINE_ID                                      (hi2s2)
+#define _IS_VOICE_REC_I2S_LINE()                                    (SPI2 == hi2s->Instance)
+
+#define _I2S_RECIVE_DMA(line, buff, leng)                           HAL_I2S_Receive_DMA(&line, buff, leng)
+#define _I2S_REC_DMA_STOP(line)                                     HAL_I2S_DMAStop(&line)
+#define _I2S_REC_DMA_PAUSE(line)                                    HAL_I2S_DMAPause(&line)
+#define _I2S_REC_DMA_RESUME(line)                                   HAL_I2S_DMAResume(&line)
+
+#define _I2S_REC_HALF_DMA_IT_FUNCTION                               void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+#define _I2S_REC_CPLT_DMA_IT_FUNCTION                               void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s)
+
 /****************** BOARD DMA CONTROL *******************/
 #define _DMA_INIT()     MX_DMA_Init()
 

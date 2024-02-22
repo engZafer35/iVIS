@@ -46,7 +46,7 @@ static void jobTaskFunc(void const* argument)
     cs43l22_Init(AUDIO_I2C_ADDRESS, OUTPUT_DEVICE_HEADPHONE, 60, 96000);
 
     cs43l22_setBeepConf(AUDIO_I2C_ADDRESS, BEEP_FRQ_hz705, BEEP_ON_TM_ms1200, BEEP_OFF_TM_ms1230);
-    cs43l22_startStopBeep(AUDIO_I2C_ADDRESS, BEEP_MODE_MULTIPLE);
+    cs43l22_startStopBeep(AUDIO_I2C_ADDRESS, BEEP_MODE_OFF);
 
     cs43l22_Play(AUDIO_I2C_ADDRESS, NULL, 0);
     volatile uint16_t     audioOutBuffer[10] = {0};
