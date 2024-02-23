@@ -38,6 +38,7 @@ static struct JobTask g_jobList[EN_JOB_MAX_NUMBER];
 
 /***************************** STATIC FUNCTIONS  ******************************/
 #include "cs43l22.h"
+#include "MiddVoiceInputControl.h"
 static void jobTaskFunc(void const* argument)
 {
     g_jobList[EN_JOB_MANAGER].taskStat = EN_RUNNING;
@@ -49,11 +50,11 @@ static void jobTaskFunc(void const* argument)
     cs43l22_startStopBeep(AUDIO_I2C_ADDRESS, BEEP_MODE_OFF);
 
     cs43l22_Play(AUDIO_I2C_ADDRESS, NULL, 0);
-    volatile uint16_t     audioOutBuffer[10] = {0};
+//    volatile uint16_t     audioOutBuffer[10] = {0};
+//
+//    HAL_I2S_Transmit_DMA(&hi2s3,(uint16_t*)audioOutBuffer,10);
 
-    HAL_I2S_Transmit_DMA(&hi2s3,(uint16_t*)audioOutBuffer,10);
-
-
+    middVoiceInInit(16000, 0, 1);
     while(1)
     {
         osDelay(2000);
